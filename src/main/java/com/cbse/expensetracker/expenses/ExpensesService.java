@@ -6,6 +6,7 @@
 package com.cbse.expensetracker.expenses;
 
 import java.util.List;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,19 @@ public class ExpensesService {
         this.expensesRepository = expensesRepository;
     }
     
-    public List<Expenses> getAllExpenses() {
-        return expensesRepository.findAll();
+    public List<Expenses> getExpensesByUserId(UUID userId) {
+        return expensesRepository.findByUserId(userId);
+    }
+    
+    public Expenses save(Expenses expense) {
+        return expensesRepository.save(expense);
+    }
+    
+    public List<Expenses> getExpensesByCategoryId(UUID categoryId) {
+        return expensesRepository.findByCategoryId(categoryId);
+    }
+    
+    public void deleteById(UUID id) {
+        expensesRepository.deleteById(id);
     }
 }
