@@ -6,6 +6,7 @@
 package com.cbse.expensetracker.expenses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -37,14 +38,18 @@ public class Expenses {
     private UUID id;
     private LocalDate date;
     private float expense;
-    private String category;
-    private String comments;
-    private String userId;
     
-    public Expenses(LocalDate date, float expense, String category, String comments, String userId) {
+    @Column(name = "category_id")
+    private UUID categoryId;
+    private String comments;
+    
+    @Column(name = "user_id")
+    private UUID userId;
+    
+    public Expenses(LocalDate date, float expense, UUID categoryId, String comments, UUID userId) {
         this.date = date;
         this.expense = expense;
-        this.category = category;
+        this.categoryId = categoryId;
         this.comments = comments;
         this.userId = userId;
     }

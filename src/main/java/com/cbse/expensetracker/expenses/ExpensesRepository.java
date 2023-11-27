@@ -17,5 +17,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ExpensesRepository extends JpaRepository<Expenses, UUID> {
+    List<Expenses> findByUserId(UUID userId);
     
+    List<Expenses> findByCategoryId(UUID categoryId);
 }
