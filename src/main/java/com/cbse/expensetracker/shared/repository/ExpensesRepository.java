@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cbse.expensetracker.expenses;
+package com.cbse.expensetracker.shared.repository;
 
+import com.cbse.expensetracker.shared.entity.Expenses;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;

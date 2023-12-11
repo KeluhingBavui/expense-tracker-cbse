@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cbse.expensetracker.users;
+package com.cbse.expensetracker.controller;
 
+import com.cbse.expensetracker.shared.entity.Users;
+import com.cbse.expensetracker.users.UsersService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.web.bind.annotation.GetMapping;
