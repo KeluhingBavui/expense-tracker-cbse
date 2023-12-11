@@ -5,30 +5,16 @@
  */
 package com.cbse.expensetracker.users;
 
+import com.cbse.expensetracker.shared.entity.Users;
 import java.util.List;
 import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Daniel Wan
  */
-
-@Service
-public class UsersService {
-    private final UsersRepository usersRepository;
+public interface UsersService {
+    public List<Users> getAllUsers();
     
-    @Autowired
-    public UsersService(UsersRepository usersRepository) {
-        this.usersRepository = usersRepository;
-    }
-    
-    public List<Users> getAllUsers() {
-        return usersRepository.findAll();
-    }
-    
-    public Users getUserById(UUID userId) {
-        return usersRepository.getById(userId);
-    }
+    public Users getUserById(UUID userId);
 }

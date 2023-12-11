@@ -5,39 +5,20 @@
  */
 package com.cbse.expensetracker.expenses;
 
+import com.cbse.expensetracker.shared.entity.Expenses;
 import java.util.List;
 import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Daniel Wan
  */
-
-@Service
-public class ExpensesService {
+public interface ExpensesService {
+    List<Expenses> getExpensesByUserId(UUID userId);
     
-    private final ExpensesRepository expensesRepository;
+    Expenses save(Expenses expense);
     
-    @Autowired
-    public ExpensesService(ExpensesRepository expensesRepository) {
-        this.expensesRepository = expensesRepository;
-    }
+    List<Expenses> getExpensesByCategoryId(UUID categoryId);
     
-    public List<Expenses> getExpensesByUserId(UUID userId) {
-        return expensesRepository.findByUserId(userId);
-    }
-    
-    public Expenses save(Expenses expense) {
-        return expensesRepository.save(expense);
-    }
-    
-    public List<Expenses> getExpensesByCategoryId(UUID categoryId) {
-        return expensesRepository.findByCategoryId(categoryId);
-    }
-    
-    public void deleteById(UUID id) {
-        expensesRepository.deleteById(id);
-    }
+    void deleteById(UUID id);
 }
