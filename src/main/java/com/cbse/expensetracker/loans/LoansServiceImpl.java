@@ -35,14 +35,27 @@ public class LoansServiceImpl implements LoansService {
 
   @Override
   public float calculateToRepayByUserId(UUID userId) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getToRepay'");
+    List<Loan> takenLoansList = this.loansRepository.findByUserIdAndType(userId, "TAKEN");
+    if (takenLoansList != null) {
+      float sum = 0;
+      for (Loan loan : takenLoansList) {
+        sum += loan.getAmount();
+      }
+      return sum;
+    }
+    return 0;
   }
 
   @Override
   public float calculateToReceiveByUserId(UUID userId) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getToReceive'");
+    List<Loan> givenLoansList = this.loansRepository.findByUserIdAndType(userId, "GIVEN");
+    if (givenLoansList != null) {
+      float sum = 0;
+      for (Loan loan : givenLoansList) {
+        sum += loan.getAmount();
+      }
+      return sum;
+    }
+    return 0;
   }
-
 }
