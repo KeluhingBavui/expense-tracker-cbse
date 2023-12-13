@@ -11,4 +11,6 @@ import com.cbse.expensetracker.shared.entity.Loan;
 @Repository
 public interface LoansRepository extends JpaRepository<Loan, UUID> {
   List<Loan> findByUserId(UUID userId);
+
+  List<Loan> findByUserIdAndType(UUID userId, String type);
 }
