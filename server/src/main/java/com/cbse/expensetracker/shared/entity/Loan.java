@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "loan") // Specify the table name explicitly
+@Table(name = "loans") // Specify the table name explicitly
 @Getter
 @Setter
 @NoArgsConstructor
