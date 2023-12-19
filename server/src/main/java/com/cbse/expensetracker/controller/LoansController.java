@@ -54,4 +54,28 @@ public class LoansController {
   public void deleteLoan(@RequestParam(name = "id") UUID loanId) {
     this.loansService.deleteLoanById(loanId);
   }
+
+  @GetMapping(path = "to-repay")
+  public ResponseEntity<Float> getToRepay(@RequestParam(name = "userId", required = false) UUID userId) {
+    float toRepay;
+
+    if (userId == null) {
+      return new ResponseEntity("Please provide a userId query parameter", HttpStatus.BAD_REQUEST);
+    } else {
+      toRepay = this.loansService.calculateToRepayByUserId(userId);
+      return new ResponseEntity<>(toRepay, HttpStatus.OK);
+    }
+  }
+
+  @GetMapping(path = "to-receive")
+  public ResponseEntity<Float> getToReceive(@RequestParam(name = "userId", required = false) UUID userId) {
+    float toReceive;
+
+    if (userId == null) {
+      return new ResponseEntity("Please provide a userId query parameter", HttpStatus.BAD_REQUEST);
+    } else {
+      toReceive = this.loansService.calculateToReceiveByUserId(userId);
+      return new ResponseEntity<>(toReceive, HttpStatus.OK);
+    }
+  }
 }
