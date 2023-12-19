@@ -33,7 +33,7 @@ public class LoansController {
     List<Loan> loans;
 
     if (userId == null) {
-      return new ResponseEntity("Please provide at least userId query parameter", HttpStatus.BAD_REQUEST);
+      return new ResponseEntity("Please provide a userId query parameter", HttpStatus.BAD_REQUEST);
     } else {
       loans = this.loansService.getLoansByUserId(userId);
       return new ResponseEntity<>(loans, HttpStatus.OK);
