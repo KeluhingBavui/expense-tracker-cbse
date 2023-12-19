@@ -35,7 +35,7 @@ public class LoansServiceImpl implements LoansService {
 
   @Override
   public float calculateToRepayByUserId(UUID userId) {
-    List<Loan> takenLoansList = this.loansRepository.findByUserIdAndType(userId, "TAKEN");
+    List<Loan> takenLoansList = this.loansRepository.findByUserIdAndType(userId, "Taken");
     if (takenLoansList != null) {
       float sum = 0;
       for (Loan loan : takenLoansList) {
@@ -48,7 +48,7 @@ public class LoansServiceImpl implements LoansService {
 
   @Override
   public float calculateToReceiveByUserId(UUID userId) {
-    List<Loan> givenLoansList = this.loansRepository.findByUserIdAndType(userId, "GIVEN");
+    List<Loan> givenLoansList = this.loansRepository.findByUserIdAndType(userId, "Given");
     if (givenLoansList != null) {
       float sum = 0;
       for (Loan loan : givenLoansList) {
