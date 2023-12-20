@@ -29,7 +29,7 @@ export default function Navbar() {
         <NavigationMenuList>
           {/* Home Button */}
           <NavigationMenuItem>
-            <button onClick={void router.push("/")}>
+            <button onClick={() => router.push("/")}>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Home
               </NavigationMenuLink>
