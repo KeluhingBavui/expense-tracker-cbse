@@ -11,6 +11,4 @@ import com.cbse.expensetracker.shared.entity.Saving;
 @Repository
 public interface SavingsRepository extends JpaRepository<Saving, UUID> {
     List<Saving> findByUserId(UUID userId);
-
-    List<Saving> findBySavingId(UUID savingId);
 }
