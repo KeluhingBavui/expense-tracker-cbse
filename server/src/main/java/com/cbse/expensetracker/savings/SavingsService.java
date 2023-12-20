@@ -8,6 +8,8 @@ import com.cbse.expensetracker.shared.entity.Saving;
 public interface SavingsService {
     List<Saving> getSavingsByUserId(UUID userId);
 
+    Saving getSavingById(UUID savingId);
+
     Saving saveSaving(Saving saving);
 
     void deleteSavingById(UUID savingId);
