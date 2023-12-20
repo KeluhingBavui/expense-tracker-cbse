@@ -1,6 +1,5 @@
 "use client";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import {
   NavigationMenu,
@@ -9,10 +8,14 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-
+import { createBrowserClient } from "@supabase/ssr";
 
 export default function Navbar() {
-  const supabase = createClientComponentClient();
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+
   const router = useRouter();
 
   async function logout() {
@@ -24,13 +27,24 @@ export default function Navbar() {
     <>
       <NavigationMenu>
         <NavigationMenuList>
+          {/* Home Button */}
           <NavigationMenuItem>
-              <button onClick={logout}>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Logout
-                </NavigationMenuLink>
-              </button>
+            <button onClick={void router.push("/")}>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Home
+              </NavigationMenuLink>
+            </button>
           </NavigationMenuItem>
+
+          {/* Logout Button */}
+          <NavigationMenuItem>
+            <button onClick={logout}>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Logout
+              </NavigationMenuLink>
+            </button>
+          </NavigationMenuItem>
+
         </NavigationMenuList>
       </NavigationMenu>
     </>
