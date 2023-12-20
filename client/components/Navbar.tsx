@@ -1,8 +1,15 @@
 "use client";
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu"
+
 
 export default function Navbar() {
   const supabase = createClientComponentClient();
@@ -12,12 +19,20 @@ export default function Navbar() {
     await supabase.auth.signOut();
     router.refresh();
   }
-  
+
   return (
     <>
-      <div>
-        <Button onClick={logout}>Logout</Button>
-      </div>
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+              <button onClick={logout}>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Logout
+                </NavigationMenuLink>
+              </button>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
     </>
   );
 }
