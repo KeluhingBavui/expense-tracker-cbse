@@ -24,7 +24,7 @@ public class Saving {
     private UUID id;
 
     private LocalDate target_date;
-    private float goal_amount;
+    private float target_amount;
     private float saving_amount;
     private String purpose;
     private String comment;
@@ -32,9 +32,10 @@ public class Saving {
     @Column(name = "user_id")
     private UUID userId;
 
-    public Saving(LocalDate target_date, float goal_amount, float saving_amount, String purpose, String comment, UUID userId) {
+    public Saving(LocalDate target_date, float target_amount, float saving_amount, String purpose, String comment,
+            UUID userId) {
         this.target_date = target_date;
-        this.goal_amount = goal_amount;
+        this.target_amount = target_amount;
         this.saving_amount = saving_amount;
         this.purpose = purpose;
         this.comment = comment;

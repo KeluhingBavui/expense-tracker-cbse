@@ -25,7 +25,7 @@ public class SavingsServiceImpl implements SavingsService {
 
     @Override
     public Saving getSavingById(UUID savingId) {
-        return this.savingsRepository.findById(savingId).orElse(null);    
+        return this.savingsRepository.findById(savingId).orElse(null);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class SavingsServiceImpl implements SavingsService {
         if (savingsList != null) {
             float sum = 0;
             for (Saving saving : savingsList) {
-                sum += saving.getGoal_amount() - saving.getSaving_amount();
+                sum += saving.getTarget_amount() - saving.getSaving_amount();
             }
             return sum;
         }
@@ -54,8 +54,8 @@ public class SavingsServiceImpl implements SavingsService {
     @Override
     public float calculateToSaveBySavingId(UUID savingId) {
         Saving saving = this.savingsRepository.findById(savingId).orElse(null);
-        if(saving != null) {
-            return saving.getGoal_amount() - saving.getSaving_amount();
+        if (saving != null) {
+            return saving.getTarget_amount() - saving.getSaving_amount();
         }
         return 0;
     }
