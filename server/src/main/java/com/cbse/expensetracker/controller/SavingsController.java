@@ -40,14 +40,14 @@ public class SavingsController {
         }
     }
 
-    @GetMapping()
-    public ResponseEntity<Saving> getUserSavingById(@RequestParam(name = "savingId", required = true) UUID savingId) {
+    @GetMapping(path = "get-a-saving")
+    public ResponseEntity<Saving> getUserSavingById(@RequestParam(name = "id", required = true) UUID id) {
         Saving saving;
 
-        if (savingId == null) {
+        if (id == null) {
             return new ResponseEntity("Please provide a savingId query parameter", HttpStatus.BAD_REQUEST);
         } else {
-            saving = this.savingsService.getSavingById(savingId);
+            saving = this.savingsService.getSavingById(id);
             return new ResponseEntity<>(saving, HttpStatus.OK);
         }
     }
@@ -63,8 +63,8 @@ public class SavingsController {
     }
 
     @DeleteMapping()
-    public void deleteSaving(@RequestParam(name = "id") UUID savingId) {
-        this.savingsService.deleteSavingById(savingId);
+    public void deleteSaving(@RequestParam(name = "id") UUID id) {
+        this.savingsService.deleteSavingById(id);
     }
 
     @GetMapping(path = "total-to-save")
@@ -80,13 +80,13 @@ public class SavingsController {
     }
 
     @GetMapping(path = "to-save")
-    public ResponseEntity<Float> getToSave(@RequestParam(name = "savingId", required = true) UUID savingId) {
+    public ResponseEntity<Float> getToSave(@RequestParam(name = "id", required = true) UUID id) {
         float toSave;
 
-        if (savingId == null) {
+        if (id == null) {
             return new ResponseEntity("Please provide a savingId query parameter", HttpStatus.BAD_REQUEST);
         } else {
-            toSave = this.savingsService.calculateToSaveBySavingId(savingId);
+            toSave = this.savingsService.calculateToSaveBySavingId(id);
             return new ResponseEntity<>(toSave, HttpStatus.OK);
         }
     }

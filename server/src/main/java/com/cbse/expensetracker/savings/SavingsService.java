@@ -8,13 +8,13 @@ import com.cbse.expensetracker.shared.entity.Saving;
 public interface SavingsService {
     List<Saving> getSavingsByUserId(UUID userId);
 
-    Saving getSavingById(UUID savingId);
+    Saving getSavingById(UUID id);
 
     Saving saveSaving(Saving saving);
 
-    void deleteSavingById(UUID savingId);
+    void deleteSavingById(UUID id);
 
     float calculateToSaveByUserId(UUID userId);
 
-    float calculateToSaveBySavingId(UUID savingId);
+    float calculateToSaveBySavingId(UUID id);
 }
