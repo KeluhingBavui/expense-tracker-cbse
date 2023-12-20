@@ -29,7 +29,7 @@ public class LoansController {
   }
 
   @GetMapping()
-  public ResponseEntity<List<Loan>> getUserLoans(@RequestParam(name = "userId", required = false) UUID userId) {
+  public ResponseEntity<List<Loan>> getUserLoans(@RequestParam(name = "userId", required = true) UUID userId) {
     List<Loan> loans;
 
     if (userId == null) {
@@ -56,7 +56,7 @@ public class LoansController {
   }
 
   @GetMapping(path = "to-repay")
-  public ResponseEntity<Float> getToRepay(@RequestParam(name = "userId", required = false) UUID userId) {
+  public ResponseEntity<Float> getToRepay(@RequestParam(name = "userId", required = true) UUID userId) {
     float toRepay;
 
     if (userId == null) {
@@ -68,7 +68,7 @@ public class LoansController {
   }
 
   @GetMapping(path = "to-receive")
-  public ResponseEntity<Float> getToReceive(@RequestParam(name = "userId", required = false) UUID userId) {
+  public ResponseEntity<Float> getToReceive(@RequestParam(name = "userId", required = true) UUID userId) {
     float toReceive;
 
     if (userId == null) {
