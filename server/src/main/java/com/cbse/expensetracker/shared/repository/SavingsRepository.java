@@ -6,11 +6,11 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.cbse.expensetracker.shared.entity.Savings;
+import com.cbse.expensetracker.shared.entity.Saving;
 
 @Repository
-public interface SavingsRepository extends JpaRepository<Savings, UUID> {
-    List<Savings> findByUserId(UUID userId);
+public interface SavingsRepository extends JpaRepository<Saving, UUID> {
+    List<Saving> findByUserId(UUID userId);
 
-    List<Savings> findByUserIdAndType(UUID userId, String type);
+    List<Saving> findBySavingId(UUID savingId);
 }
