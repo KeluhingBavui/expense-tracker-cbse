@@ -18,24 +18,26 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Savings {
+public class Saving {
     @Id
     @GeneratedValue(generator = "UUID")
     private UUID id;
 
     private LocalDate target_date;
-    private int goal_amount;
-    private int saving_amount;
+    private float goal_amount;
+    private float saving_amount;
     private String purpose;
+    private String comment;
 
     @Column(name = "user_id")
     private UUID userId;
 
-    public Savings(LocalDate target_date, int goal_amount, int saving_amount, String purpose, UUID userId) {
+    public Saving(LocalDate target_date, float goal_amount, float saving_amount, String purpose, String comment, UUID userId) {
         this.target_date = target_date;
         this.goal_amount = goal_amount;
         this.saving_amount = saving_amount;
         this.purpose = purpose;
+        this.comment = comment;
         this.userId = userId;
     }
 }
