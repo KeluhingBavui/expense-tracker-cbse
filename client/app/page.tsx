@@ -145,7 +145,7 @@ export default async function Home() {
       </div>
 
       {/* Expense Table */}
-      <DataTable columns={ExpenseTableColumns} data={expensesWithCategoryName} />
+      <DataTable columns={ExpenseTableColumns} data={expensesWithCategoryName} enableFiltering filterColumnName="categoryName" />
     </div>
   );
 }
