@@ -1,6 +1,7 @@
 import { ExpenseTableColumns } from "@/components/columns";
 import DisplayCard from "@/components/display-card";
 import { DataTable } from "@/components/ui/data-table";
+import { expensesInCurrentMonth, expensesInCurrentWeek, expensesInCurrentYear, expensesToday, leastSpentDay, mostSpentCategory, mostSpentDay, overallExpenses } from "@/lib/utils";
 import { Category } from "@/types/category";
 import { Expense } from "@/types/expense";
 import { createServerClient } from "@supabase/ssr";
@@ -133,10 +134,14 @@ export default async function Home() {
       <p className="text-4xl">Expenses</p>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <DisplayCard title="Food" content="$100" />
-        <DisplayCard title="Food" content="$100" />
-        <DisplayCard title="Food" content="$100" />
-        <DisplayCard title="Food" content="$100" />
+        <DisplayCard title="Overall Expenses" content={overallExpenses(expenses).toString()} />
+        <DisplayCard title="This Year" content={expensesInCurrentYear(expenses).toString()} />
+        <DisplayCard title="This Month" content={expensesInCurrentMonth(expenses).toString()} />
+        <DisplayCard title="This Week" content={expensesInCurrentWeek(expenses).toString()} />
+        <DisplayCard title="Today" content={expensesToday(expenses).toString()} />
+        <DisplayCard title="Most Spent Category" content={mostSpentCategory(expensesWithCategoryName)} />
+        <DisplayCard title="Most Spent Day" content={mostSpentDay(expenses)} />
+        <DisplayCard title="Least Spent Day" content={leastSpentDay(expenses)} />
       </div>
 
       {/* Expense Table */}
