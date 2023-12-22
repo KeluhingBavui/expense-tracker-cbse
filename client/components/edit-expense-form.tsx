@@ -4,7 +4,7 @@ import { Expense } from "@/types/expense";
 import { Calendar } from "./ui/calendar";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
     Popover,
     PopoverContent,
@@ -15,7 +15,6 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Textarea } from "./ui/textarea";
-import { Category } from "@/types/category";
 import {
     Select,
     SelectContent,
@@ -24,7 +23,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import useFetchCategories from "@/hooks/useFetchCategories";
 
 type EditExpenseFormProps = {
     expense: {
@@ -38,47 +37,7 @@ type EditExpenseFormProps = {
     };
 }
 
-async function getCategoriesByUserId(userId: string): Promise<Category[] | undefined> {
-    try {
-        //TODO: Update this function to return the categories from the API when it's ready
-        // const response = await fetch(
-        //   `${process.env.NEXT_PUBLIC_API_URL}/v1/categories?userId=${userId}`,{
-        //     method: "GET",
-        //   }
-        // );
-
-        // if (!response.ok) {
-        //   throw new Error("Error fetching categories: " + response.statusText + " " + response.json());
-        // }
-
-        // const categories: Category[] = await response.json();
-
-        const categories: Category[] = [
-            {
-                id: "67837a47-f8ff-45cf-8599-096692d09e0b",
-                name: "Food",
-                userId: "d181ecc9-480b-4e1a-9189-522665bf0e46",
-            },
-            {
-                id: "add890ad-dda6-4c49-b4db-3a6390b85c5d",
-                name: "Automobile",
-                userId: "d181ecc9-480b-4e1a-9189-522665bf0e46",
-            },
-            {
-                id: "ac244bd6-8f33-430b-a6b1-5d4184729f1a",
-                name: "Entertainment",
-                userId: "d181ecc9-480b-4e1a-9189-522665bf0e46",
-            },
-        ];
-
-        return categories;
-    } catch (error) {
-        console.error(error);
-        return;
-    }
-}
-
-async function updateExpense(expense: Expense, router: AppRouterInstance): Promise<Expense> {
+async function updateExpense(expense: Expense): Promise<Expense> {
     try {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses`,
@@ -97,7 +56,6 @@ async function updateExpense(expense: Expense, router: AppRouterInstance): Promi
         }
 
         await response.json();
-        router.refresh();
         alert("Expense updated successfully");
         return expense;
     } catch (error) {
@@ -118,18 +76,7 @@ const EditExpenseForm: React.FC<EditExpenseFormProps> = (props) => {
     }
 
     const [expenseForm, setExpenseForm] = useState(expense);
-    const [categories, setCategories] = useState<Category[]>([]);
-
-    useEffect(() => {
-        async function getCategories() {
-            const categories = await getCategoriesByUserId(expenseForm.userId);
-            if (categories) {
-                setCategories(categories);
-            }
-        }
-
-        getCategories();
-    }, [expenseForm.userId]);
+    const { categories } = useFetchCategories(props.expense.userId);
 
     const handleSubmit = async () => {
         const reqBody: Expense = {
@@ -141,7 +88,8 @@ const EditExpenseForm: React.FC<EditExpenseFormProps> = (props) => {
             userId: expenseForm.userId,
         }
 
-        await updateExpense(reqBody, router);
+        await updateExpense(reqBody);
+        router.refresh();
     }
 
     return (
