@@ -83,12 +83,22 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
       const expense = row.original;
 
       const handleDelete = async () => {
-        const res = await fetch(`/api/expenses?id=${expense.id}`, {
-          method: "DELETE",
-        });
+        if (!confirm("Are you sure you want to delete this expense?")) return;
 
-        if (!res.ok) {
-          throw new Error("Something went wrong");
+        try {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/expenses?id=${expense.id}`, {
+            method: "DELETE",
+          });
+  
+          if (!res.ok) {
+            throw new Error("Internal Server Error");
+          }
+
+          alert("Expense deleted successfully");
+          window.location.reload();
+        } catch (error) {
+          console.error(error);
+          alert("Error deleting expense");
         }
       }
 
