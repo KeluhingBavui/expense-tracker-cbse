@@ -1,4 +1,5 @@
 import { ExpenseTableColumns } from "@/components/columns";
+import CreateExpenseForm from "@/components/create-expense-form";
 import DisplayCard from "@/components/display-card";
 import { DataTable } from "@/components/ui/data-table";
 import { expensesInCurrentMonth, expensesInCurrentWeek, expensesInCurrentYear, expensesToday, leastSpentDay, mostSpentCategory, mostSpentDay, overallExpenses } from "@/lib/utils";
@@ -131,8 +132,6 @@ export default async function Home() {
 
   return (
     <div className="grid gap-4">
-      <p className="text-4xl">Expenses</p>
-
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <DisplayCard title="Overall Expenses" content={overallExpenses(expenses).toString()} />
         <DisplayCard title="This Year" content={expensesInCurrentYear(expenses).toString()} />
@@ -144,6 +143,10 @@ export default async function Home() {
         <DisplayCard title="Least Spent Day" content={leastSpentDay(expenses)} />
       </div>
 
+      <div className="grid grid-cols-2 items-center">
+        <p className="text-4xl">My Expenses</p>
+        <CreateExpenseForm buttonStyle="justify-self-end" categories={categories} session={session} />
+      </div>
       {/* Expense Table */}
       <DataTable columns={ExpenseTableColumns} data={expensesWithCategoryName} enableFiltering filterColumnName="categoryName" />
     </div>
