@@ -82,6 +82,16 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
     cell: ({ row }) => {
       const expense = row.original;
 
+      const handleDelete = async () => {
+        const res = await fetch(`/api/expenses?id=${expense.id}`, {
+          method: "DELETE",
+        });
+
+        if (!res.ok) {
+          throw new Error("Something went wrong");
+        }
+      }
+
       return (
         <Dialog>
           <DropdownMenu>
@@ -99,7 +109,9 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
                   <Button variant="ghost">Edit Expense</Button>
                 </DialogTrigger>
               </DropdownMenuItem>
-              <DropdownMenuItem>Delete Expense</DropdownMenuItem>
+              <DropdownMenuItem>
+                <Button variant="ghost" onClick={handleDelete}>Delete Expense</Button>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <DialogContent>
