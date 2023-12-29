@@ -54,6 +54,16 @@ public class SettingsServiceImpl implements SettingsService {
         return null;
     }
 
+    @Override 
+    public Settings updateCurrency(UUID userId, String newCurrency) {
+        Settings existingSettings = settingsRepository.findByUserId(userId);
+        if (existingSettings != null) {
+            existingSettings.setCurrency(newCurrency);
+            return settingsRepository.save(existingSettings);
+        }
+        return null;
+    }
+
     @Override
     public Settings updateEmailEnbld(UUID userId, boolean newEmailEnbld) {
         Settings existingSettings = settingsRepository.findByUserId(userId);

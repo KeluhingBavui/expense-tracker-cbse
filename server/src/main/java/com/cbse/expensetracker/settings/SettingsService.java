@@ -14,6 +14,8 @@ public interface SettingsService {
 
     Settings updateTheme(UUID userId, String newTheme);
 
+    Settings updateCurrency(UUID userId, String newCurrency);
+
     Settings updateEmailEnbld(UUID userId, boolean newEmailEnbld);
 
     Settings updateWebEnbld(UUID userId, boolean newWebEnbld);
