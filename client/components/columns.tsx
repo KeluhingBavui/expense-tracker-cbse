@@ -82,6 +82,26 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
     cell: ({ row }) => {
       const expense = row.original;
 
+      const handleDelete = async () => {
+        if (!confirm("Are you sure you want to delete this expense?")) return;
+
+        try {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/expenses?id=${expense.id}`, {
+            method: "DELETE",
+          });
+  
+          if (!res.ok) {
+            throw new Error("Internal Server Error");
+          }
+
+          alert("Expense deleted successfully");
+          window.location.reload();
+        } catch (error) {
+          console.error(error);
+          alert("Error deleting expense");
+        }
+      }
+
       return (
         <Dialog>
           <DropdownMenu>
@@ -99,7 +119,9 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
                   <Button variant="ghost">Edit Expense</Button>
                 </DialogTrigger>
               </DropdownMenuItem>
-              <DropdownMenuItem>Delete Expense</DropdownMenuItem>
+              <DropdownMenuItem>
+                <Button variant="ghost" onClick={handleDelete}>Delete Expense</Button>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <DialogContent>

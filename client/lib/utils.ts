@@ -70,6 +70,8 @@ export function mostSpentCategory(expenses: {
   userId: string;
   categoryName: string
 }[]) {
+  if (expenses.length === 0) return "No expenses yet";
+
   const categories = expenses.map((expense) => expense.categoryName)
   const uniqueCategories = [...new Set(categories)];
   const categoryExpenses = uniqueCategories.map((category) => {
@@ -88,6 +90,8 @@ export function mostSpentCategory(expenses: {
  * @returns string
  */
 export function mostSpentDay(expenses: Expense[]) {
+  if (expenses.length === 0) return "No expenses yet";
+
   const days = expenses.map((expense) => new Date(expense.date).getDay())
   const uniqueDays = [...new Set(days)];
   const dayExpenses = uniqueDays.map((day) => {
@@ -116,6 +120,8 @@ export function getDayName(day: number) {
  * @returns string
  */
 export function leastSpentDay(expenses: Expense[]) {
+  if (expenses.length === 0) return "No expenses yet";
+
   const days = expenses.map((expense) => new Date(expense.date).getDay())
   const uniqueDays = [...new Set(days)];
   const dayExpenses = uniqueDays.map((day) => {

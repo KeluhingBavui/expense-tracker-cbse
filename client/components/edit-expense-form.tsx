@@ -42,7 +42,7 @@ async function updateExpense(expense: Expense): Promise<Expense> {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses`,
             {
-                method: "POST",
+                method: "PUT",
                 mode: "cors",
                 headers: {
                     "Content-Type": "application/json",
