@@ -33,7 +33,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Autowired
     public CurrencyServiceImpl(WebClient.Builder webClientBuilder, ExpensesService expenseService, LoansService loanService, SavingsService savingService, SettingsService settingsService) {
-        this.webClient = webClientBuilder.baseUrl("https://api.freecurrencyapi.com").build();
+        this.webClient = webClientBuilder.baseUrl("https://api.freecurrencyapi.com/v1/latest").build();
         this.expenseService = expenseService;
         this.loanService = loanService;
         this.savingService = savingService;
@@ -44,15 +44,15 @@ public class CurrencyServiceImpl implements CurrencyService {
     public Mono<ResponseEntity<JsonNode>> getCurrencyRates(@RequestParam UUID userId) {
         String apiKey = "fca_live_tIfyF8V7fLsCiEkccoJUf5vCVqNYlJiFVuKIxXZe";
         String baseCurrency = getUserCurrency(userId);
-
+    
+    
         return webClient.get()
-            .uri(uriBuilder -> uriBuilder
-                .path("/v1/latest")
-                .queryParam("apikey", apiKey)
-                .queryParam("base_currency", baseCurrency)
-                .build())
+        .uri(uriBuilder -> uriBuilder
+            .queryParam("apikey", apiKey)
+            .queryParam("base_currency", baseCurrency)
+            .build())
             .retrieve()
-            .bodyToMono(JsonNode.class).map(jsonNode -> new ResponseEntity < > (jsonNode, HttpStatus.OK));
+            .bodyToMono(JsonNode.class).map(jsonNode -> new ResponseEntity<>(jsonNode, HttpStatus.OK));
     }
 
     @Override
