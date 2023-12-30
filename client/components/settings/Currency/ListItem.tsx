@@ -15,6 +15,7 @@ import {
 import { axios } from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import { useUserSession } from "@/hooks/useUserSession";
+import { useCurrenciesStore } from "@/hooks/useCurrenciesStore";
 
 interface Props {
   code: string;
@@ -24,6 +25,7 @@ interface Props {
 const ListItem = ({ code, rate }: Props) => {
   const router = useRouter();
   const { session } = useUserSession();
+  const { setData } = useCurrenciesStore();
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -56,6 +58,7 @@ const ListItem = ({ code, rate }: Props) => {
                 }
               );
               router.refresh();
+              setData([]);
             }}
           >
             Convert

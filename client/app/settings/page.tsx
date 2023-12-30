@@ -32,7 +32,7 @@ const SettingsPage = async () => {
   const settings = await fetchSettings(session?.user.id!);
   return (
     <div>
-      <h1 className="font-bold text-4xl mb-2"> Settings</h1>
+      <h1 className="font-bold text-4xl my-2"> Settings</h1>
       <Separator className="h-[3px] bg-white mb-4" />
       <div className="grid grid-cols-2 items-start">
         <div className="grid gap-8">
