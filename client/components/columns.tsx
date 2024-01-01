@@ -198,6 +198,20 @@ export const SavingTableColumns: ColumnDef<Saving>[] = [
     },
   },
   {
+    accessorKey: "to_save_amount",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          To Save
+          <ArrowUpDown className="w-4 h-4 ml-2" />
+        </Button>
+      );
+    },
+  },
+  {
     accessorKey: "comment",
     header: "Comment",
   },
