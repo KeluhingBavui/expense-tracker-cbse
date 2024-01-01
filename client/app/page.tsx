@@ -15,6 +15,7 @@ import {
 } from "@/lib/utils";
 import { Category } from "@/types/category";
 import { Expense } from "@/types/expense";
+import { Loan } from "@/types/loan";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -104,6 +105,30 @@ async function getCategoriesByUserId(
   }
 }
 
+async function getLoansByUserId(userId: string) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/loans?userId=${userId}`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Error fetching loans: " + response.statusText + " " + response.json()
+      );
+    }
+
+    const loans: Loan[] = await response.json();
+
+    return loans;
+  } catch (error) {
+    console.error(error);
+    return;
+  }
+}
+
 async function getLoanTypes() {
   return ["Taken", "Given"];
 }
@@ -137,6 +162,7 @@ export default async function Home() {
 
   const expenses = await getExpenses(session.user.id);
   const categories = await getCategoriesByUserId(session.user.id);
+  const loans = await getLoansByUserId(session.user.id);
   const loanTypes = await getLoanTypes();
   const loanStatuses = await getLoanStatus();
 
