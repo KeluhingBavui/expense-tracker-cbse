@@ -229,6 +229,37 @@ export const SavingTableColumns: ColumnDef<Saving>[] = [
           alert("Error deleting saving");
         }
       };
+
+      return (
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="w-8 h-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <DialogTrigger asChild>
+                  <Button variant="ghost">Edit Saving</Button>
+                </DialogTrigger>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Button variant="ghost" onClick={handleDelete}>
+                  Delete Saving
+                </Button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {/* <DialogContent>
+            <DialogTitle>Edit Saving</DialogTitle>
+            <EditSavingForm saving={saving} />
+          </DialogContent> */}
+        </Dialog>
+      );
     },
   },
 ];
