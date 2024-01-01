@@ -9,7 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import {
   Dialog,
@@ -18,6 +18,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import EditExpenseForm from "./edit-expense-form";
+import { Loan } from "@/types/loan";
 
 type Expense = {
   id: string;
@@ -41,7 +42,7 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
           Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
   },
   {
@@ -55,7 +56,7 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
           Expense
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
   },
   {
@@ -69,7 +70,7 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
           Category
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
   },
   {
@@ -86,10 +87,13 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
         if (!confirm("Are you sure you want to delete this expense?")) return;
 
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/expenses?id=${expense.id}`, {
-            method: "DELETE",
-          });
-  
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses?id=${expense.id}`,
+            {
+              method: "DELETE",
+            }
+          );
+
           if (!res.ok) {
             throw new Error("Internal Server Error");
           }
@@ -100,7 +104,7 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
           console.error(error);
           alert("Error deleting expense");
         }
-      }
+      };
 
       return (
         <Dialog>
@@ -120,7 +124,9 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
                 </DialogTrigger>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Button variant="ghost" onClick={handleDelete}>Delete Expense</Button>
+                <Button variant="ghost" onClick={handleDelete}>
+                  Delete Expense
+                </Button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -130,6 +136,113 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
           </DialogContent>
         </Dialog>
       );
-    }
-  }
-]
+    },
+  },
+];
+
+export const LoanTableColumns: ColumnDef<Loan>[] = [
+  {
+    accessorKey: "date",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "amount",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Amount
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "type",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Type
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "person",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Person
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Status
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "reason",
+    header: "Reason",
+  },
+  {
+    accessorKey: "actions",
+    header: "Actions",
+    cell: ({ row }) => {
+      const loan = row.original;
+
+      const handleDelete = async () => {
+        if (!confirm("Are you sure you want to delete this loan?")) return;
+
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/v1/loans?id=${loan.id}`,
+            {
+              method: "DELETE",
+            }
+          );
+
+          if (!res.ok) {
+            throw new Error("Internal Server Error");
+          }
+
+          alert("Loan deleted successfully");
+          window.location.reload();
+        } catch (error) {
+          console.error(error);
+          alert("Error deleting loan");
+        }
+      };
+    },
+  },
+];
