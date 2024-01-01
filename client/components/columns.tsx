@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import EditExpenseForm from "./edit-expense-form";
 import { Saving } from "@/types/saving";
+import EditSavingForm from "./edit-saving-form";
 
 type Expense = {
   id: string;
@@ -268,10 +269,10 @@ export const SavingTableColumns: ColumnDef<Saving>[] = [
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          {/* <DialogContent>
+          <DialogContent>
             <DialogTitle>Edit Saving</DialogTitle>
             <EditSavingForm saving={saving} />
-          </DialogContent> */}
+          </DialogContent>
         </Dialog>
       );
     },
