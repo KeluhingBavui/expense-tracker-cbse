@@ -1,4 +1,4 @@
-import { ExpenseTableColumns } from "@/components/columns";
+import { ExpenseTableColumns, LoanTableColumns } from "@/components/columns";
 import CreateExpenseForm from "@/components/create-expense-form";
 import CreateLoanForm from "@/components/create-loan-form";
 import DisplayCard from "@/components/display-card";
@@ -224,6 +224,7 @@ export default async function Home() {
         />
       </div>
 
+      {/* Expenses */}
       <div>
         <div className="grid grid-cols-2 items-center">
           <p className="text-4xl font-bold">My Expenses</p>
@@ -242,6 +243,7 @@ export default async function Home() {
         />
       </div>
 
+      {/* Loans */}
       <div>
         <div className="grid grid-cols-2 items-center">
           <p className="text-4xl font-bold">My Loans</p>
@@ -252,12 +254,12 @@ export default async function Home() {
             session={session}
           />
         </div>
-        {/* Expense Table */}
+        {/* Loans Table */}
         <DataTable
-          columns={ExpenseTableColumns}
-          data={expensesWithCategoryName}
+          columns={LoanTableColumns}
+          data={loans ?? []}
           enableFiltering
-          filterColumnName="categoryName"
+          filterColumnName="status"
         />
       </div>
     </div>
