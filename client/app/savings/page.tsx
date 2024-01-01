@@ -152,7 +152,7 @@ export default async function Savings() {
       </div>
 
       <div className="grid items-center grid-cols-2">
-        <p className="text-4xl">My Expenses</p>
+        <p className="text-4xl">My Savings</p>
         <CreateSavingForm buttonStyle="justify-self-end" session={session} />
       </div>
         {/* Saving Table */}
