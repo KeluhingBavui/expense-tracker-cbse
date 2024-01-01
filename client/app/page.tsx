@@ -1,5 +1,6 @@
 import { ExpenseTableColumns } from "@/components/columns";
 import CreateExpenseForm from "@/components/create-expense-form";
+import CreateLoanForm from "@/components/create-loan-form";
 import DisplayCard from "@/components/display-card";
 import { DataTable } from "@/components/ui/data-table";
 import {
@@ -103,6 +104,14 @@ async function getCategoriesByUserId(
   }
 }
 
+async function getLoanTypes() {
+  return ["Taken", "Given"];
+}
+
+async function getLoanStatus() {
+  return ["Pending", "Settled"];
+}
+
 export default async function Home() {
   const cookieStore = cookies();
 
@@ -128,6 +137,8 @@ export default async function Home() {
 
   const expenses = await getExpenses(session.user.id);
   const categories = await getCategoriesByUserId(session.user.id);
+  const loanTypes = await getLoanTypes();
+  const loanStatuses = await getLoanStatus();
 
   if (!expenses) {
     throw new Error("Error fetching expenses");
@@ -154,7 +165,7 @@ export default async function Home() {
   });
 
   return (
-    <div className="grid gap-16">
+    <div className="grid gap-12">
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <DisplayCard
           title="Overall Expenses"
@@ -193,6 +204,25 @@ export default async function Home() {
           <CreateExpenseForm
             buttonStyle="justify-self-end"
             categories={categories}
+            session={session}
+          />
+        </div>
+        {/* Expense Table */}
+        <DataTable
+          columns={ExpenseTableColumns}
+          data={expensesWithCategoryName}
+          enableFiltering
+          filterColumnName="categoryName"
+        />
+      </div>
+
+      <div>
+        <div className="grid grid-cols-2 items-center">
+          <p className="text-4xl font-bold">My Loans</p>
+          <CreateLoanForm
+            buttonStyle="justify-self-end"
+            types={loanTypes}
+            statuses={loanStatuses}
             session={session}
           />
         </div>
