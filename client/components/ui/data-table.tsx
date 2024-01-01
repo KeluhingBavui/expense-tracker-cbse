@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 import {
   ColumnDef,
@@ -12,7 +12,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -21,15 +21,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { useState } from 'react';
-import { Input } from './input';
+} from "@/components/ui/table";
+import { useState } from "react";
+import { Input } from "./input";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  enableFiltering?: boolean
-  filterColumnName?: string
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  enableFiltering?: boolean;
+  filterColumnName?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -54,17 +54,22 @@ export function DataTable<TData, TValue>({
       sorting,
       columnFilters,
     },
-  })
+  });
 
   return (
     <div>
       {enableFiltering && filterColumnName && (
         <div className="flex items-center py-4">
           <Input
-            placeholder={`Filter ${filterColumnName}...`}
-            value={(table.getColumn(filterColumnName)?.getFilterValue() as string) ?? ""}
+            placeholder={`Filter`}
+            value={
+              (table.getColumn(filterColumnName)?.getFilterValue() as string) ??
+              ""
+            }
             onChange={(event) =>
-              table.getColumn(filterColumnName)?.setFilterValue(event.target.value)
+              table
+                .getColumn(filterColumnName)
+                ?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
@@ -81,11 +86,11 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -99,14 +104,20 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>
@@ -133,5 +144,5 @@ export function DataTable<TData, TValue>({
         </Button>
       </div>
     </div>
-  )
+  );
 }
