@@ -9,35 +9,35 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 async function getTotalToSave(userId?: string): Promise<number> {
-    try {
-        let response: Response;
-    
-        if (userId) {
-          response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/v1/savings/total-to-save?userId=${userId}`,
-            {
-              method: "GET",
-            }
-          );
-        } else {
-          throw new Error("No userId provided");
+  try {
+    let response: Response;
+
+    if (userId) {
+      response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/savings/total-to-save?userId=${userId}`,
+        {
+          method: "GET",
         }
-    
-        if (!response.ok) {
-          throw new Error(
-            "Error fetching total to save amount: " +
-              response.statusText +
-              " " +
-              response.json()
-          );
-        }
-    
-        const totalToSaveAmount: number = await response.json();
-        return totalToSaveAmount;
-      } catch (error) {
-        console.error(error);
-        return 0;
-      }
+      );
+    } else {
+      throw new Error("No userId provided");
+    }
+
+    if (!response.ok) {
+      throw new Error(
+        "Error fetching total to save amount: " +
+          response.statusText +
+          " " +
+          response.json()
+      );
+    }
+
+    const totalToSaveAmount: number = await response.json();
+    return totalToSaveAmount;
+  } catch (error) {
+    console.error(error);
+    return 0;
+  }
 }
 
 async function getToSave(savingId?: string): Promise<number> {
@@ -143,18 +143,25 @@ export default async function Savings() {
   if (!savings) {
     throw new Error("Error fetching savings");
   }
-  
+
   return (
     <>
       <div className="grid gap-4">
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <DisplayCard title="Total to Save" content={"MYR "+String(totalToSaveAmount)} />
-      </div>
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <DisplayCard
+            title="Total to Save"
+            content={
+              totalToSaveAmount < 0
+                ? "Completed"
+                : "MYR " + String(totalToSaveAmount)
+            }
+          />
+        </div>
 
-      <div className="grid items-center grid-cols-2">
-        <p className="text-4xl">My Savings</p>
-        <CreateSavingForm buttonStyle="justify-self-end" session={session} />
-      </div>
+        <div className="grid items-center grid-cols-2">
+          <p className="text-4xl">My Savings</p>
+          <CreateSavingForm buttonStyle="justify-self-end" session={session} />
+        </div>
         {/* Saving Table */}
         <DataTable columns={SavingTableColumns} data={savings} />
       </div>
