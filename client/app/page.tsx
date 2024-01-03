@@ -189,7 +189,11 @@ export default async function Home() {
 
       <div className="grid grid-cols-2 items-center">
         <p className="text-4xl">My Expenses</p>
-        <CreateExpenseForm buttonStyle="justify-self-end" categories={categories} session={session} />
+        <CreateExpenseForm
+          buttonStyle="justify-self-end"
+          categories={categories}
+          session={session}
+        />
       </div>
       {/* Expense Table */}
       <DataTable
