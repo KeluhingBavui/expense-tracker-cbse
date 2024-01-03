@@ -7,14 +7,14 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 import { createBrowserClient } from "@supabase/ssr";
 
 export default function Navbar() {
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+  );
 
   const router = useRouter();
 
@@ -43,7 +43,14 @@ export default function Navbar() {
               </NavigationMenuLink>
             </button>
           </NavigationMenuItem>
-
+          {/* Loans Button */}
+          <NavigationMenuItem>
+            <button onClick={() => router.push("/loans")}>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Loans
+              </NavigationMenuLink>
+            </button>
+          </NavigationMenuItem>
           {/* Logout Button */}
           <NavigationMenuItem>
             <button onClick={logout}>
@@ -52,7 +59,6 @@ export default function Navbar() {
               </NavigationMenuLink>
             </button>
           </NavigationMenuItem>
-
         </NavigationMenuList>
       </NavigationMenu>
     </>
