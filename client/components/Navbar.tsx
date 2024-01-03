@@ -35,6 +35,14 @@ export default function Navbar() {
               </NavigationMenuLink>
             </button>
           </NavigationMenuItem>
+          {/* Savings Button */}
+          <NavigationMenuItem>
+            <button onClick={() => router.push("/savings")}>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Savings
+              </NavigationMenuLink>
+            </button>
+          </NavigationMenuItem>
 
           {/* Logout Button */}
           <NavigationMenuItem>
