@@ -10,7 +10,7 @@ export async function middleware(req: NextRequest) {
     },
   });
 
-  const publicUrls = ["/reset"];
+  const publicUrls = ["/reset", "/reset-password"];
 
   if (publicUrls.includes(req.nextUrl.pathname)) {
     return response;
