@@ -7,6 +7,7 @@ import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +19,14 @@ public class NotificationsServiceImpl implements NotificationsService {
     private final UsersService usersService;
     @Autowired
     private JavaMailSender javaMailSender;
+
     @Autowired
-    public NotificationsServiceImpl(NotificationsRepository notificationsRepository, UsersService usersService) {
+    private final SimpMessagingTemplate messagingTemplate;
+    @Autowired
+    public NotificationsServiceImpl(NotificationsRepository notificationsRepository, UsersService usersService, SimpMessagingTemplate messagingTemplate) {
         this.notificationsRepository = notificationsRepository;
         this.usersService = usersService;
+        this.messagingTemplate = messagingTemplate;
     }
 
     @Override
@@ -70,6 +75,21 @@ public class NotificationsServiceImpl implements NotificationsService {
 
     @Override
     public String sendWebNotif(UUID userId, String message) {
-        return null;
+        try {
+            // Construct the destination for the user-specific queue
+            String destination = "/user/" + userId + "/queue/notifications";
+
+            // Create a new Notifications entity with the provided message
+            Notifications notification = new Notifications();
+            notification.setMessage(message);
+
+            // Send the notification message to the user-specific queue
+            messagingTemplate.convertAndSend(destination, notification);
+
+            return "Web Notification Sent";
+        } catch (Exception e) {
+            e.printStackTrace(); // Replace with proper logging
+            return "Error sending web notification";
+        }
     }
 }

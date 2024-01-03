@@ -68,5 +68,21 @@ public class NotificationsController {
         }
     }
 
+    @PostMapping("/send-web-notification")
+    public ResponseEntity<String> sendWebNotification(
+            @RequestParam("userId") UUID userId,
+            @RequestParam("message") String message
+    ) {
+        try {
+            // Use your NotificationsService to send the web notification
+            notificationsService.sendWebNotif(userId, message);
+
+            return new ResponseEntity<>("Web notification sent successfully.", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception properly
+            return new ResponseEntity<>("Failed to send web notification.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
 
