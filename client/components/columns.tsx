@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/dialog";
 import EditExpenseForm from "./edit-expense-form";
 import { Loan } from "@/types/loan";
+import EditSavingForm from "./edit-saving-form";
+import { Saving } from "@/types/saving";
 
 type Expense = {
   id: string;
@@ -40,7 +42,7 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Date
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
@@ -54,7 +56,7 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Expense
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
@@ -68,7 +70,7 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Category
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
@@ -110,9 +112,9 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
         <Dialog>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
+              <Button variant="ghost" className="w-8 h-8 p-0">
                 <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
+                <MoreHorizontal className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -316,6 +318,14 @@ export const SavingTableColumns: ColumnDef<Saving>[] = [
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("to_save_amount"));
+      if (amount < 0) {
+        return <span className="text-green-500">Completed</span>;
+      } else {
+        return <span>{String(amount)}</span>;
+      }
     },
   },
   {

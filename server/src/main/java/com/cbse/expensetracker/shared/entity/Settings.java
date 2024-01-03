@@ -26,6 +26,8 @@ public class Settings {
     private String language;
     private String font;
     private String theme;
+    private String currency;
+    
     @Column(name = "email_enbld")
     private boolean emailEnbld;
     @Column(name= "web_enbld")
@@ -33,11 +35,14 @@ public class Settings {
     @Column(name = "notif_types")
     private List<String> notifTypes;
 
-    public Settings(UUID userId, String language, String font, String theme, boolean webEnbld, boolean emailEnbld, List<String> notifTypes) {
+    
+
+    public Settings(UUID userId, String language, String font, String theme, String currency, boolean webEnbld, boolean emailEnbld, List<String> notifTypes) {
         this.userId = userId;
         this.language = language;
         this.font = font;
         this.theme = theme;
+        this.currency = currency;
         this.webEnbld = webEnbld;
         this.emailEnbld = emailEnbld;
         this.notifTypes = notifTypes;

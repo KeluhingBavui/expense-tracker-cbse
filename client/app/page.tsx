@@ -1,6 +1,5 @@
-import { ExpenseTableColumns, LoanTableColumns } from "@/components/columns";
+import { ExpenseTableColumns } from "@/components/columns";
 import CreateExpenseForm from "@/components/create-expense-form";
-import CreateLoanForm from "@/components/create-loan-form";
 import DisplayCard from "@/components/display-card";
 import { DataTable } from "@/components/ui/data-table";
 import {
@@ -15,7 +14,6 @@ import {
 } from "@/lib/utils";
 import { Category } from "@/types/category";
 import { Expense } from "@/types/expense";
-import { Loan } from "@/types/loan";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -105,38 +103,6 @@ async function getCategoriesByUserId(
   }
 }
 
-async function getLoansByUserId(userId: string) {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/loans?userId=${userId}`,
-      {
-        method: "GET",
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        "Error fetching loans: " + response.statusText + " " + response.json()
-      );
-    }
-
-    const loans: Loan[] = await response.json();
-
-    return loans;
-  } catch (error) {
-    console.error(error);
-    return;
-  }
-}
-
-async function getLoanTypes() {
-  return ["Taken", "Given"];
-}
-
-async function getLoanStatus() {
-  return ["Pending", "Settled"];
-}
-
 export default async function Home() {
   const cookieStore = cookies();
 
@@ -162,9 +128,6 @@ export default async function Home() {
 
   const expenses = await getExpenses(session.user.id);
   const categories = await getCategoriesByUserId(session.user.id);
-  const loans = await getLoansByUserId(session.user.id);
-  const loanTypes = await getLoanTypes();
-  const loanStatuses = await getLoanStatus();
 
   if (!expenses) {
     throw new Error("Error fetching expenses");
@@ -191,7 +154,7 @@ export default async function Home() {
   });
 
   return (
-    <div className="grid gap-12">
+    <div className="grid gap-4">
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <DisplayCard
           title="Overall Expenses"
@@ -224,44 +187,17 @@ export default async function Home() {
         />
       </div>
 
-      {/* Expenses */}
-      <div>
-        <div className="grid grid-cols-2 items-center">
-          <p className="text-4xl font-bold">My Expenses</p>
-          <CreateExpenseForm
-            buttonStyle="justify-self-end"
-            categories={categories}
-            session={session}
-          />
-        </div>
-        {/* Expense Table */}
-        <DataTable
-          columns={ExpenseTableColumns}
-          data={expensesWithCategoryName}
-          enableFiltering
-          filterColumnName="categoryName"
-        />
+      <div className="grid grid-cols-2 items-center">
+        <p className="text-4xl">My Expenses</p>
+        <CreateExpenseForm buttonStyle="justify-self-end" categories={categories} session={session} />
       </div>
-
-      {/* Loans */}
-      <div>
-        <div className="grid grid-cols-2 items-center">
-          <p className="text-4xl font-bold">My Loans</p>
-          <CreateLoanForm
-            buttonStyle="justify-self-end"
-            types={loanTypes}
-            statuses={loanStatuses}
-            session={session}
-          />
-        </div>
-        {/* Loans Table */}
-        <DataTable
-          columns={LoanTableColumns}
-          data={loans ?? []}
-          enableFiltering
-          filterColumnName="status"
-        />
-      </div>
+      {/* Expense Table */}
+      <DataTable
+        columns={ExpenseTableColumns}
+        data={expensesWithCategoryName}
+        enableFiltering
+        filterColumnName="categoryName"
+      />
     </div>
   );
 }
