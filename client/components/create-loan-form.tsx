@@ -22,10 +22,12 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { Session } from "@supabase/supabase-js";
 
-type CreateExpenseFormProps = {
+/**
+ * types: ["Taken", "Given"],
+ * statuses: ["Pending", "Settled"],
+ */
+type CreateLoanFormProps = {
   buttonStyle: string;
-  types: string[];
-  statuses: string[];
   session: Session;
 };
 
@@ -57,7 +59,7 @@ async function createLoan(loan: Loan): Promise<Loan> {
   }
 }
 
-const CreateLoanForm: React.FC<CreateExpenseFormProps> = (props) => {
+const CreateLoanForm: React.FC<CreateLoanFormProps> = (props) => {
   const router = useRouter();
   const [loanForm, setLoanForm] = useState({
     id: "",
@@ -69,6 +71,8 @@ const CreateLoanForm: React.FC<CreateExpenseFormProps> = (props) => {
     reason: "",
     userId: props.session.user.id,
   });
+  const types = ["Taken", "Given"];
+  const statuses = ["Pending", "Settled"];
 
   const handleSubmit = async () => {
     const reqBody: Loan = {
@@ -83,9 +87,7 @@ const CreateLoanForm: React.FC<CreateExpenseFormProps> = (props) => {
     };
 
     await createLoan(reqBody);
-    setTimeout(() => {
-      router.refresh();
-    }, 1000);
+    router.refresh();
   };
 
   return (
@@ -96,6 +98,7 @@ const CreateLoanForm: React.FC<CreateExpenseFormProps> = (props) => {
       <DialogContent>
         <DialogTitle>Create Loan</DialogTitle>
         <div className="grid gap-4 py-4">
+          {/* Date */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="loan-date" className="text-right">
               Date
@@ -132,6 +135,7 @@ const CreateLoanForm: React.FC<CreateExpenseFormProps> = (props) => {
               </PopoverContent>
             </Popover>
           </div>
+          {/* Amount */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="loan-amount" className="text-right">
               Amount
@@ -148,6 +152,7 @@ const CreateLoanForm: React.FC<CreateExpenseFormProps> = (props) => {
               }
             />
           </div>
+          {/* Type */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="loan-type" className="text-right">
               Type
@@ -157,11 +162,11 @@ const CreateLoanForm: React.FC<CreateExpenseFormProps> = (props) => {
                 setLoanForm((prev) => ({ ...prev, type: value }))
               }
             >
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="col-span-3">
                 <SelectValue placeholder="Select a type" />
               </SelectTrigger>
               <SelectContent>
-                {props.types.map((type) => (
+                {types.map((type) => (
                   <SelectItem key={type} value={type}>
                     {type}
                   </SelectItem>
@@ -169,20 +174,20 @@ const CreateLoanForm: React.FC<CreateExpenseFormProps> = (props) => {
               </SelectContent>
             </Select>
           </div>
-
+          {/* Person */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="loan-person" className="text-right">
               Person
             </Label>
             <Input
-              className="w-max"
+              className="col-span-3"
               placeholder="Bob"
               onChange={(e) =>
                 setLoanForm((prev) => ({ ...prev, person: e.target.value }))
               }
             />
           </div>
-
+          {/* Status */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="loan-status" className="text-right">
               Status
@@ -192,11 +197,11 @@ const CreateLoanForm: React.FC<CreateExpenseFormProps> = (props) => {
                 setLoanForm((prev) => ({ ...prev, status: value }))
               }
             >
-              <SelectTrigger className="w-max">
+              <SelectTrigger className="col-span-3">
                 <SelectValue placeholder="Select a status" />
               </SelectTrigger>
               <SelectContent>
-                {props.statuses.map((status) => (
+                {statuses.map((status) => (
                   <SelectItem key={status} value={status}>
                     {status}
                   </SelectItem>
@@ -204,7 +209,7 @@ const CreateLoanForm: React.FC<CreateExpenseFormProps> = (props) => {
               </SelectContent>
             </Select>
           </div>
-
+          {/* Reason */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="loan-reason" className="text-right">
               Reason
@@ -220,6 +225,7 @@ const CreateLoanForm: React.FC<CreateExpenseFormProps> = (props) => {
               }
             />
           </div>
+          {/* Save */}
           <div className="grid grid-cols-4 items-center gap-4">
             <div className="col-span-4 flex justify-center">
               <Button variant="default" onClick={handleSubmit}>
