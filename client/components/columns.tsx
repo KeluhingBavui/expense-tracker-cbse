@@ -21,6 +21,7 @@ import EditExpenseForm from "./edit-expense-form";
 import { Loan } from "@/types/loan";
 import EditSavingForm from "./edit-saving-form";
 import { Saving } from "@/types/saving";
+import EditLoanForm from "./edit-loan-form";
 
 type Expense = {
   id: string;
@@ -245,6 +246,37 @@ export const LoanTableColumns: ColumnDef<Loan>[] = [
           alert("Error deleting loan");
         }
       };
+
+      return (
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="w-8 h-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <DialogTrigger asChild>
+                  <Button variant="ghost">Edit</Button>
+                </DialogTrigger>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Button variant="ghost" onClick={handleDelete}>
+                  Delete
+                </Button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DialogContent>
+            <DialogTitle>Edit Loan</DialogTitle>
+            <EditLoanForm loan={loan} />
+          </DialogContent>
+        </Dialog>
+      );
     },
   },
 ];
