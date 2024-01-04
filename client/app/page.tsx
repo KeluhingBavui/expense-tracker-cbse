@@ -1,11 +1,22 @@
-import { ExpenseTableColumns } from '@/components/columns';
-import DisplayCard from '@/components/display-card';
-import { DataTable } from '@/components/ui/data-table';
-import { Category } from '@/types/category';
-import { Expense } from '@/types/expense';
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { ExpenseTableColumns } from "@/components/columns";
+import CreateExpenseForm from "@/components/create-expense-form";
+import DisplayCard from "@/components/display-card";
+import { DataTable } from "@/components/ui/data-table";
+import {
+  expensesInCurrentMonth,
+  expensesInCurrentWeek,
+  expensesInCurrentYear,
+  expensesToday,
+  leastSpentDay,
+  mostSpentCategory,
+  mostSpentDay,
+  overallExpenses,
+} from "@/lib/utils";
+import { Category } from "@/types/category";
+import { Expense } from "@/types/expense";
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 async function getExpenses(
   userId?: string,
@@ -18,25 +29,25 @@ async function getExpenses(
       response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses?userId=${userId}`,
         {
-          method: 'GET',
+          method: "GET",
         }
       );
     } else if (categoryId) {
       response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses?categoryId=${categoryId}`,
         {
-          method: 'GET',
+          method: "GET",
         }
       );
     } else {
-      throw new Error('No userId or categoryId provided');
+      throw new Error("No userId or categoryId provided");
     }
 
     if (!response.ok) {
       throw new Error(
-        'Error fetching expenses: ' +
+        "Error fetching expenses: " +
           response.statusText +
-          ' ' +
+          " " +
           response.json()
       );
     }
@@ -69,19 +80,19 @@ async function getCategoriesByUserId(
 
     const categories: Category[] = [
       {
-        id: '67837a47-f8ff-45cf-8599-096692d09e0b',
-        name: 'Food',
-        userId: 'd181ecc9-480b-4e1a-9189-522665bf0e46',
+        id: "67837a47-f8ff-45cf-8599-096692d09e0b",
+        name: "Food",
+        userId: "d181ecc9-480b-4e1a-9189-522665bf0e46",
       },
       {
-        id: 'add890ad-dda6-4c49-b4db-3a6390b85c5d',
-        name: 'Automobile',
-        userId: 'd181ecc9-480b-4e1a-9189-522665bf0e46',
+        id: "add890ad-dda6-4c49-b4db-3a6390b85c5d",
+        name: "Automobile",
+        userId: "d181ecc9-480b-4e1a-9189-522665bf0e46",
       },
       {
-        id: 'ac244bd6-8f33-430b-a6b1-5d4184729f1a',
-        name: 'Entertainment',
-        userId: 'd181ecc9-480b-4e1a-9189-522665bf0e46',
+        id: "ac244bd6-8f33-430b-a6b1-5d4184729f1a",
+        name: "Entertainment",
+        userId: "d181ecc9-480b-4e1a-9189-522665bf0e46",
       },
     ];
 
@@ -112,18 +123,18 @@ export default async function Home() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect('/login');
+    redirect("/login");
   }
 
   const expenses = await getExpenses(session.user.id);
   const categories = await getCategoriesByUserId(session.user.id);
 
   if (!expenses) {
-    throw new Error('Error fetching expenses');
+    throw new Error("Error fetching expenses");
   }
 
   if (!categories) {
-    throw new Error('Error fetching categories');
+    throw new Error("Error fetching categories");
   }
 
   // Map the category name to the expense
@@ -133,7 +144,7 @@ export default async function Home() {
     );
 
     if (!category) {
-      throw new Error('Error finding category');
+      throw new Error("Error finding category");
     }
 
     return {
@@ -144,19 +155,52 @@ export default async function Home() {
 
   return (
     <div className="grid gap-4">
-      <p className="text-4xl">Expenses</p>
-
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <DisplayCard title="Food" content="$100" />
-        <DisplayCard title="Food" content="$100" />
-        <DisplayCard title="Food" content="$100" />
-        <DisplayCard title="Food" content="$100" />
+        <DisplayCard
+          title="Overall Expenses"
+          content={overallExpenses(expenses).toString()}
+        />
+        <DisplayCard
+          title="This Year"
+          content={expensesInCurrentYear(expenses).toString()}
+        />
+        <DisplayCard
+          title="This Month"
+          content={expensesInCurrentMonth(expenses).toString()}
+        />
+        <DisplayCard
+          title="This Week"
+          content={expensesInCurrentWeek(expenses).toString()}
+        />
+        <DisplayCard
+          title="Today"
+          content={expensesToday(expenses).toString()}
+        />
+        <DisplayCard
+          title="Most Spent Category"
+          content={mostSpentCategory(expensesWithCategoryName)}
+        />
+        <DisplayCard title="Most Spent Day" content={mostSpentDay(expenses)} />
+        <DisplayCard
+          title="Least Spent Day"
+          content={leastSpentDay(expenses)}
+        />
       </div>
 
+      <div className="grid grid-cols-2 items-center">
+        <p className="text-4xl">My Expenses</p>
+        <CreateExpenseForm
+          buttonStyle="justify-self-end"
+          categories={categories}
+          session={session}
+        />
+      </div>
       {/* Expense Table */}
       <DataTable
         columns={ExpenseTableColumns}
         data={expensesWithCategoryName}
+        enableFiltering
+        filterColumnName="categoryName"
       />
     </div>
   );

@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,11 +27,11 @@ export default async function RootLayout({
     {
       cookies: {
         get(name: string) {
-          return cookieStore.get(name)?.value
+          return cookieStore.get(name)?.value;
         },
       },
     }
-  )
+  );
 
   const {
     data: { session },
@@ -45,12 +46,9 @@ export default async function RootLayout({
           enableSystem
           themes={["light", "dark", "system"]}
         >
-          {session && (
-            <Navbar />
-          )}
-          <main className="container">
-            {children}
-          </main>
+          <Toaster />
+          {session && <Navbar />}
+          <main className="container">{children}</main>
         </ThemeProvider>
       </body>
     </html>
