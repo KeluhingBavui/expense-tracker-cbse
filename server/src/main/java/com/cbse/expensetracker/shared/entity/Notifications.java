@@ -21,9 +21,12 @@ public class Notifications {
     private UUID userId;
 
     private String message;
+    private String type;
 
-    public Notifications(UUID userId, String message) {
+
+    public Notifications(UUID userId, String message, String type) {
         this.userId = userId;
         this.message = message;
+        this.type = type;
     }
 }

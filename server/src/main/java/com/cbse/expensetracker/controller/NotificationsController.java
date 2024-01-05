@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.cbse.expensetracker.notifications.NotificationsService;
 import com.cbse.expensetracker.shared.entity.Notifications;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,46 +37,21 @@ public class NotificationsController {
         }
     }
 
-    @PostMapping()
-    public Notifications createNotification(@RequestBody Notifications newNotification) {
-        return this.notificationsService.save(newNotification);
+    @PostMapping
+    public ResponseEntity<String> sendNotification(@RequestBody Notifications request) {
+        try {
+            String result = notificationsService.sendNotif(request.getUserId(), request.getMessage(), request.getType());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception properly
+            return new ResponseEntity<>("Error sending notification", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
 
     @DeleteMapping()
     public void deleteNotification(@RequestParam(name = "id") UUID id) {
         this.notificationsService.deleteById(id);
-    }
-
-    @PostMapping("/send-email")
-    public String sendEmailNotification(
-            @RequestParam("userId") UUID userId,
-            @RequestParam("message") String message
-    ) {
-        try {
-            // Use your NotificationService to send the email
-            notificationsService.sendEmailNotif(userId, message);
-
-            return "Email notification sent successfully.";
-        } catch (Exception e) {
-            e.printStackTrace(); // Log the exception properly
-            return "Failed to send email notification.";
-        }
-    }
-
-    @PostMapping("/send-web-notification")
-    public ResponseEntity<String> sendWebNotification(
-            @RequestParam("userId") UUID userId,
-            @RequestParam("message") String message
-    ) {
-        try {
-            // Use your NotificationsService to send the web notification
-            notificationsService.sendWebNotif(userId, message);
-
-            return new ResponseEntity<>("Web notification sent successfully.", HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace(); // Log the exception properly
-            return new ResponseEntity<>("Failed to send web notification.", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
 }

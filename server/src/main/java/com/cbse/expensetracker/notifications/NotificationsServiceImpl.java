@@ -1,6 +1,8 @@
 package com.cbse.expensetracker.notifications;
 
+import com.cbse.expensetracker.settings.SettingsService;
 import com.cbse.expensetracker.shared.entity.Notifications;
+import com.cbse.expensetracker.shared.entity.Settings;
 import com.cbse.expensetracker.shared.repository.NotificationsRepository;
 import com.cbse.expensetracker.users.UsersService;
 import jakarta.mail.internet.MimeMessage;
@@ -17,16 +19,15 @@ import java.util.UUID;
 public class NotificationsServiceImpl implements NotificationsService {
     private final NotificationsRepository notificationsRepository;
     private final UsersService usersService;
+    private final SettingsService settingsService;
     @Autowired
     private JavaMailSender javaMailSender;
 
     @Autowired
-    private final SimpMessagingTemplate messagingTemplate;
-    @Autowired
-    public NotificationsServiceImpl(NotificationsRepository notificationsRepository, UsersService usersService, SimpMessagingTemplate messagingTemplate) {
+    public NotificationsServiceImpl(NotificationsRepository notificationsRepository, UsersService usersService, SimpMessagingTemplate messagingTemplate, SettingsService settingsService) {
         this.notificationsRepository = notificationsRepository;
         this.usersService = usersService;
-        this.messagingTemplate = messagingTemplate;
+        this.settingsService = settingsService;
     }
 
     @Override
@@ -45,7 +46,7 @@ public class NotificationsServiceImpl implements NotificationsService {
     }
 
     @Override
-    public String sendEmailNotif(UUID userId, String message) {
+    public void sendEmailNotif(UUID userId, String message) {
         try {
             // Retrieve user email from the database
             String userEmail = usersService.getUserById(userId).getEmail();
@@ -62,34 +63,50 @@ public class NotificationsServiceImpl implements NotificationsService {
                 // Send the email
                 javaMailSender.send(mimeMailMessage);
 
-                return "Email Sent";
             } else {
-                return "Give userId";
             }
         } catch (Exception e) {
             e.printStackTrace(); // Replace with proper logging
-            return null;
         }
 
     }
 
     @Override
-    public String sendWebNotif(UUID userId, String message) {
+    public String sendNotif(UUID userId, String message, String type) {
         try {
-            // Construct the destination for the user-specific queue
-            String destination = "/user/" + userId + "/queue/notifications";
+            Settings settings = this.settingsService.getSettingsByUserId(userId);
+            List<String> notifTypesList = settings.getNotifTypes();
+            Notifications savedNotification = null;
 
-            // Create a new Notifications entity with the provided message
-            Notifications notification = new Notifications();
-            notification.setMessage(message);
+            for (String notifType : notifTypesList) {
+                if (notifType.equals(type)) {
+                    Notifications notification = new Notifications(userId, message, type);
+                    savedNotification = save(notification);
+                    break;
+                }
+            }
 
-            // Send the notification message to the user-specific queue
-            messagingTemplate.convertAndSend(destination, notification);
+            // Check if the notification is successfully saved
+            if (savedNotification != null) {
+                if (!settings.isWebEnbld() && !settings.isEmailEnbld()) {
+                    // Send web notification
+                    return "No notifications configured";
+                }
 
-            return "Web Notification Sent";
+                if (settings.isEmailEnbld()) {
+                    // Send email notification using the saved notification
+                    sendEmailNotif(savedNotification.getUserId(), savedNotification.getMessage());
+                }
+                return "Notification Sent";
+            } else {
+                return "Error creating notification";
+            }
         } catch (Exception e) {
-            e.printStackTrace(); // Replace with proper logging
-            return "Error sending web notification";
+            e.printStackTrace();
+            return "Error sending notification";
         }
     }
+
+
+
 }

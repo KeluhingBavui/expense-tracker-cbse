@@ -13,7 +13,7 @@ public interface NotificationsService {
 
     void deleteById(UUID id);
 
-    String sendEmailNotif(UUID userId, String message);
+    void sendEmailNotif(UUID userId, String message);
 
-    String sendWebNotif(UUID userId, String message);
+    String sendNotif(UUID userId, String message, String type);
 }
