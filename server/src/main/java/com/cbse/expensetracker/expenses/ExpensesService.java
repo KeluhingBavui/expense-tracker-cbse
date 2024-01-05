@@ -21,4 +21,6 @@ public interface ExpensesService {
     List<Expenses> getExpensesByCategoryId(UUID categoryId);
     
     void deleteById(UUID id);
+
+    void sendWeeklyExpenseSummary();
 }
