@@ -17,4 +17,6 @@ public interface SavingsService {
     float calculateToSaveByUserId(UUID userId);
 
     float calculateToSaveBySavingId(UUID id);
+
+    public void sendNotificationForUpcomingSavings();
 }

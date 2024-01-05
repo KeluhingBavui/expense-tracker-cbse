@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -29,8 +30,9 @@ public class UsersServiceImpl implements UsersService {
     public List<Users> getAllUsers() {
         return usersRepository.findAll();
     }
-    
+
+    @Transactional
     public Users getUserById(UUID userId) {
-        return usersRepository.getById(userId);
+        return usersRepository.findById(userId).orElse(null); // Eager loading
     }
 }

@@ -11,9 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.cbse.expensetracker.savings.SavingsService;
-import com.cbse.expensetracker.shared.entity.Saving;
-
 @RestController
 @RequestMapping(path = "api/v1/notifications")
 @CrossOrigin(origins = "http://localhost:3000")

@@ -3,6 +3,7 @@ package com.cbse.expensetracker.notifications;
 import com.cbse.expensetracker.settings.SettingsService;
 import com.cbse.expensetracker.shared.entity.Notifications;
 import com.cbse.expensetracker.shared.entity.Settings;
+import com.cbse.expensetracker.shared.entity.Users;
 import com.cbse.expensetracker.shared.repository.NotificationsRepository;
 import com.cbse.expensetracker.users.UsersService;
 import jakarta.mail.internet.MimeMessage;
@@ -49,7 +50,9 @@ public class NotificationsServiceImpl implements NotificationsService {
     public void sendEmailNotif(UUID userId, String message) {
         try {
             // Retrieve user email from the database
-            String userEmail = usersService.getUserById(userId).getEmail();
+            Users user = usersService.getUserById(userId);
+            String userEmail = user.getEmail();
+            System.out.println(userEmail);
 
             if (userEmail != null && !userEmail.isEmpty()) {
                 MimeMessage mimeMailMessage = javaMailSender.createMimeMessage();
