@@ -14,4 +14,6 @@ public interface LoansService {
   float calculateToRepayByUserId(UUID userId);
 
   float calculateToReceiveByUserId(UUID userId);
+
+  void sendNotificationForPendingLoans();
 }
