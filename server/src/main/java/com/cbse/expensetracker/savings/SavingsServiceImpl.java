@@ -66,8 +66,7 @@ public class SavingsServiceImpl implements SavingsService {
         return 0;
     }
 
-    // Schedule the task to run daily at a specific time
-    @Scheduled(fixedDelay = 6000) // Every day at 12 PM
+    @Scheduled(cron = "0 0 12 * * ?") // Every day at 12 PM
     public void sendNotificationForUpcomingSavings() {
         System.out.println("sendNote method invoked.");
         List<Saving> savingsList = this.savingsRepository.findAll();
@@ -80,11 +79,10 @@ public class SavingsServiceImpl implements SavingsService {
             // Check if it's 3 days before the target date and the savings to save amount is not zero
             if (daysUntilTarget == 3 && calculateToSaveBySavingId(saving.getId()) > 0) {
                 // Send notification
-                String notificationMessage = "Reminder: You have a savings goal coming up in 3 days. Don't forget to save!";
-                notificationsService.sendNotif(saving.getUserId(), notificationMessage, "SAVINGS_REMINDER");
+                String notificationMessage = "Reminder: You have a savings goal coming up in 3 days. You need to save "
+                        + calculateToSaveBySavingId(saving.getId()) + " more. Don't forget to save!";
+                notificationsService.sendNotif(saving.getUserId(), notificationMessage, "SAV_RMND");
             }
-            String notificationMessage = "Reminder: You have a savings goal coming up in 3 days. Don't forget to save!";
-            notificationsService.sendNotif(saving.getUserId(), notificationMessage, "LOAN_CMPLTD");
         }
     }
 
