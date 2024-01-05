@@ -8,20 +8,14 @@ import com.cbse.expensetracker.shared.entity.Notifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.cbse.expensetracker.savings.SavingsService;
 import com.cbse.expensetracker.shared.entity.Saving;
 
 @RestController
 @RequestMapping(path = "api/v1/notifications")
+@CrossOrigin(origins = "http://localhost:3000")
 public class NotificationsController {
     private final NotificationsService notificationsService;
 
