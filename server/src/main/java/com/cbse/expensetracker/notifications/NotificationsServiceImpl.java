@@ -10,7 +10,6 @@ import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +24,7 @@ public class NotificationsServiceImpl implements NotificationsService {
     private JavaMailSender javaMailSender;
 
     @Autowired
-    public NotificationsServiceImpl(NotificationsRepository notificationsRepository, UsersService usersService, SimpMessagingTemplate messagingTemplate, SettingsService settingsService) {
+    public NotificationsServiceImpl(NotificationsRepository notificationsRepository, UsersService usersService, SettingsService settingsService) {
         this.notificationsRepository = notificationsRepository;
         this.usersService = usersService;
         this.settingsService = settingsService;
@@ -109,7 +108,5 @@ public class NotificationsServiceImpl implements NotificationsService {
             return "Error sending notification";
         }
     }
-
-
 
 }

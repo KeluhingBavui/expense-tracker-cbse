@@ -45,7 +45,6 @@ public class NotificationsController {
         }
     }
 
-
     @DeleteMapping()
     public void deleteNotification(@RequestParam(name = "id") UUID id) {
         this.notificationsService.deleteById(id);

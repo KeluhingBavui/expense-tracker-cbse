@@ -23,7 +23,6 @@ public class Notifications {
     private String message;
     private String type;
 
-
     public Notifications(UUID userId, String message, String type) {
         this.userId = userId;
         this.message = message;
