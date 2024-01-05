@@ -96,7 +96,7 @@ const EditSavingForm: React.FC<EditSavingFormProps> = (props) => {
 
   return (
     <div className="grid gap-4 py-4">
-        <div className="grid items-center grid-cols-4 gap-4">
+      <div className="grid items-center grid-cols-4 gap-4">
         <Label htmlFor="saving-purpose" className="text-right">
           Purpose
         </Label>

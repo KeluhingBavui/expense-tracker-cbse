@@ -18,8 +18,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import EditExpenseForm from "./edit-expense-form";
-import { Saving } from "@/types/saving";
+import { Loan } from "@/types/loan";
 import EditSavingForm from "./edit-saving-form";
+import { Saving } from "@/types/saving";
+import EditLoanForm from "./edit-loan-form";
 
 type Expense = {
   id: string;
@@ -134,6 +136,144 @@ export const ExpenseTableColumns: ColumnDef<Expense>[] = [
           <DialogContent>
             <DialogTitle>Edit Expense</DialogTitle>
             <EditExpenseForm expense={expense} />
+          </DialogContent>
+        </Dialog>
+      );
+    },
+  },
+];
+
+export const LoanTableColumns: ColumnDef<Loan>[] = [
+  {
+    accessorKey: "date",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "amount",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Amount
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "type",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Type
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "person",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Person
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Status
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "reason",
+    header: "Reason",
+  },
+  {
+    accessorKey: "actions",
+    header: "Actions",
+    cell: ({ row }) => {
+      const loan = row.original;
+
+      const handleDelete = async () => {
+        if (!confirm("Are you sure you want to delete this loan?")) return;
+
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/v1/loans?id=${loan.id}`,
+            {
+              method: "DELETE",
+            }
+          );
+
+          if (!res.ok) {
+            throw new Error("Internal Server Error");
+          }
+
+          alert("Loan deleted successfully");
+          window.location.reload();
+        } catch (error) {
+          console.error(error);
+          alert("Error deleting loan");
+        }
+      };
+
+      return (
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="w-8 h-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <DialogTrigger asChild>
+                  <Button variant="ghost">Edit</Button>
+                </DialogTrigger>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Button variant="ghost" onClick={handleDelete}>
+                  Delete
+                </Button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DialogContent>
+            <DialogTitle>Edit Loan</DialogTitle>
+            <EditLoanForm loan={loan} />
           </DialogContent>
         </Dialog>
       );
