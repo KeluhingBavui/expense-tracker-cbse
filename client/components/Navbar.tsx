@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import { createBrowserClient } from "@supabase/ssr";
+} from '@/components/ui/navigation-menu';
+import { createBrowserClient } from '@supabase/ssr';
 
 export default function Navbar() {
   const supabase = createBrowserClient(
@@ -29,7 +29,7 @@ export default function Navbar() {
         <NavigationMenuList>
           {/* Home Button */}
           <NavigationMenuItem>
-            <button onClick={() => router.push("/")}>
+            <button onClick={() => router.push('/')}>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Home
               </NavigationMenuLink>
@@ -37,7 +37,7 @@ export default function Navbar() {
           </NavigationMenuItem>
           {/* Savings Button */}
           <NavigationMenuItem>
-            <button onClick={() => router.push("/savings")}>
+            <button onClick={() => router.push('/savings')}>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Savings
               </NavigationMenuLink>
@@ -45,9 +45,17 @@ export default function Navbar() {
           </NavigationMenuItem>
           {/* Loans Button */}
           <NavigationMenuItem>
-            <button onClick={() => router.push("/loans")}>
+            <button onClick={() => router.push('/loans')}>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Loans
+              </NavigationMenuLink>
+            </button>
+          </NavigationMenuItem>
+          {/* Settings Button */}
+          <NavigationMenuItem>
+            <button onClick={() => router.push('/settings')}>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Settings
               </NavigationMenuLink>
             </button>
           </NavigationMenuItem>
