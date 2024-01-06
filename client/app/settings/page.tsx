@@ -1,10 +1,11 @@
-import React from "react";
-import { axios } from "@/lib/axios";
-import { Field as CurrencyField, List } from "@/components/settings/Currency";
-import { cookies } from "next/headers";
-import { createServerClient } from "@supabase/ssr";
-import { Separator } from "@/components/ui/separator";
-import Field from "@/components/settings/Field";
+import React from 'react';
+import { axios } from '@/lib/axios';
+import { Field as CurrencyField, List } from '@/components/settings/Currency';
+import { cookies } from 'next/headers';
+import { createServerClient } from '@supabase/ssr';
+import { Separator } from '@/components/ui/separator';
+import Field from '@/components/settings/Field';
+import LanguageField from '@/components/settings/LanguageField';
 
 const fetchSettings = async (userId: string) => {
   const { data } = await axios.get(`/settings`, {
@@ -36,7 +37,7 @@ const SettingsPage = async () => {
       <Separator className="h-[3px] bg-white mb-4" />
       <div className="grid grid-cols-2 items-start">
         <div className="grid gap-8">
-          <Field label="Language" value={settings.language} />
+          <LanguageField language={settings.language} />
           <Field label="Font" value={settings.font} />
           <Field label="Theme" value={settings.theme} />
           <CurrencyField currency={settings.currency} />
