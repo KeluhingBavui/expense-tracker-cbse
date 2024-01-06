@@ -6,6 +6,7 @@ import { createServerClient } from '@supabase/ssr';
 import { Separator } from '@/components/ui/separator';
 import Field from '@/components/settings/Field';
 import LanguageField from '@/components/settings/LanguageField';
+import ThemeField from '@/components/settings/ThemeField';
 
 const fetchSettings = async (userId: string) => {
   const { data } = await axios.get(`/settings`, {
@@ -39,6 +40,7 @@ const SettingsPage = async () => {
         <div className="grid gap-8">
           <LanguageField language={settings.language} />
           <Field label="Font" value={settings.font} />
+          <ThemeField theme={settings.theme} />
           <Field label="Theme" value={settings.theme} />
           <CurrencyField currency={settings.currency} />
         </div>
