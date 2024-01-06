@@ -5,6 +5,7 @@ import { axios } from '@/lib/axios';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { useTheme } from 'next-themes';
+import { Label } from '../ui/label';
 
 const options = [
   { value: 'light', label: 'Light' },
@@ -52,6 +53,7 @@ const ThemeField = ({ theme }: { theme: string }) => {
 
   return (
     <div>
+      <Label className="text-md">Theme</Label>
       <Select
         options={options}
         defaultValue={selectedtheme}

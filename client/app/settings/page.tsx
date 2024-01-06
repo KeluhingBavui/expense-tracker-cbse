@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import Field from '@/components/settings/Field';
 import LanguageField from '@/components/settings/LanguageField';
 import ThemeField from '@/components/settings/ThemeField';
-
+import NotificationsChannelCard from '@/components/settings/NotificationsChannelCard';
 const fetchSettings = async (userId: string) => {
   const { data } = await axios.get(`/settings`, {
     params: { userId },
@@ -33,16 +33,21 @@ const SettingsPage = async () => {
   } = await supabase.auth.getSession();
   const settings = await fetchSettings(session?.user.id!);
   return (
-    <div>
+    <div className="p-4">
       <h1 className="font-bold text-4xl my-2"> Settings</h1>
+      <h2 className="font-semibold text-2xl mt-4"> General Settings</h2>
       <Separator className="h-[3px] bg-white mb-4" />
       <div className="grid grid-cols-2 items-start">
         <div className="grid gap-8">
           <LanguageField language={settings.language} />
-          <Field label="Font" value={settings.font} />
           <ThemeField theme={settings.theme} />
-          <Field label="Theme" value={settings.theme} />
           <CurrencyField currency={settings.currency} />
+          <Separator className="my-2" />
+          <h2 className="font-semibold text-2xl"> Notification Settings</h2>
+          <NotificationsChannelCard
+            settings={settings}
+            sessionUserId={session?.user.id!}
+          />
         </div>
         <List />
       </div>

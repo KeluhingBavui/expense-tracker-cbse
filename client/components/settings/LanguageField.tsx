@@ -4,6 +4,7 @@ import { useUserSession } from '@/hooks/useUserSession';
 import { axios } from '@/lib/axios';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
+import { Label } from '../ui/label';
 
 const options = [
   { value: 'en', label: 'English' },
@@ -49,6 +50,7 @@ const LanguageField = ({ language }: { language: string }) => {
 
   return (
     <div>
+      <Label className="text-md">Language</Label>
       <Select
         options={options}
         defaultValue={selectedLanguage}
