@@ -9,10 +9,7 @@ import com.cbse.expensetracker.notifications.NotificationsService;
 import com.cbse.expensetracker.shared.repository.ExpensesRepository;
 import com.cbse.expensetracker.shared.entity.Expenses;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAdjusters;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
