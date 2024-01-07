@@ -3,6 +3,7 @@ package com.cbse.expensetracker.controller;
 import java.util.List;
 import java.util.UUID;
 
+import com.cbse.expensetracker.notifications.NotificationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +25,12 @@ import com.cbse.expensetracker.shared.entity.Saving;
 @RequestMapping(path = "api/v1/savings")
 public class SavingsController {
     private final SavingsService savingsService;
+    private final NotificationsService notificationsService;
 
     @Autowired
-    public SavingsController(SavingsService savingsService) {
+    public SavingsController(SavingsService savingsService, NotificationsService notificationsService) {
         this.savingsService = savingsService;
+        this.notificationsService = notificationsService;
     }
 
     @GetMapping()
@@ -60,8 +63,16 @@ public class SavingsController {
     }
 
     @PutMapping()
-    public Saving updateSaving(@RequestBody Saving updatedSaving) {
-        return this.savingsService.saveSaving(updatedSaving);
+    public ResponseEntity<Saving> updateSaving(@RequestBody Saving updatedSaving) {
+        Saving savedSaving = this.savingsService.saveSaving(updatedSaving);
+        // Check if the total to save is now zero
+        float totalToSave = this.savingsService.calculateToSaveByUserId(savedSaving.getUserId());
+        if (totalToSave == 0.0) {
+            // Send notification
+            String notificationMessage = "Congratulations! You have achieved your savings goal for " + savedSaving.getPurpose() + " totaling " + savedSaving.getTarget_amount();
+            notificationsService.sendNotif(savedSaving.getUserId(), notificationMessage, "SAV_CMPLTD");
+        }
+        return new ResponseEntity<>(savedSaving, HttpStatus.OK);
     }
 
     @DeleteMapping()

@@ -6,6 +6,8 @@
 package com.cbse.expensetracker.shared.repository;
 
 import com.cbse.expensetracker.shared.entity.Expenses;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +23,6 @@ public interface ExpensesRepository extends JpaRepository<Expenses, UUID> {
     List<Expenses> findByUserId(UUID userId);
     
     List<Expenses> findByCategoryId(UUID categoryId);
+
+    List<Expenses> findByDateBetween(LocalDate startDate, LocalDate endDate);
 }

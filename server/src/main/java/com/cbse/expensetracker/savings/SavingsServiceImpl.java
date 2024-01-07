@@ -1,10 +1,14 @@
 package com.cbse.expensetracker.savings;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 
+import com.cbse.expensetracker.notifications.NotificationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import com.cbse.expensetracker.shared.entity.Saving;
 import com.cbse.expensetracker.shared.repository.SavingsRepository;
@@ -12,10 +16,12 @@ import com.cbse.expensetracker.shared.repository.SavingsRepository;
 @Service
 public class SavingsServiceImpl implements SavingsService {
     private final SavingsRepository savingsRepository;
+    private final NotificationsService notificationsService;
 
     @Autowired
-    public SavingsServiceImpl(SavingsRepository savingsRepository) {
+    public SavingsServiceImpl(SavingsRepository savingsRepository, NotificationsService notificationsService) {
         this.savingsRepository = savingsRepository;
+        this.notificationsService = notificationsService;
     }
 
     @Override
@@ -58,6 +64,26 @@ public class SavingsServiceImpl implements SavingsService {
             return saving.getTarget_amount() - saving.getSaving_amount();
         }
         return 0;
+    }
+
+    @Scheduled(cron = "0 0 12 * * ?") // Every day at 12 PM
+    public void sendNotificationForUpcomingSavings() {
+        System.out.println("sendNote method invoked.");
+        List<Saving> savingsList = this.savingsRepository.findAll();
+
+        for (Saving saving : savingsList) {
+            LocalDate targetDate = saving.getTarget_date();
+            LocalDate today = LocalDate.now();
+            long daysUntilTarget = ChronoUnit.DAYS.between(today, targetDate);
+
+            // Check if it's 3 days before the target date and the savings to save amount is not zero
+            if (daysUntilTarget == 3 && calculateToSaveBySavingId(saving.getId()) > 0) {
+                // Send notification
+                String notificationMessage = "Reminder: You have a savings goal coming up in 3 days. You need to save "
+                        + calculateToSaveBySavingId(saving.getId()) + " more. Don't forget to save!";
+                notificationsService.sendNotif(saving.getUserId(), notificationMessage, "SAV_RMND");
+            }
+        }
     }
 
 }
