@@ -11,21 +11,31 @@ import {
 } from '@/components/ui/card';
 import { Checkbox } from '../ui/checkbox';
 
-const NotificationsChannelCard: React.FC<{
+const NotificationsTypeCard: React.FC<{
   settings: Settings;
   sessionUserId: string;
 }> = ({ settings, sessionUserId }) => {
-  const [emailEnbld, setEmailEnbld] = useState(settings.emailEnbld);
-  const [webEnbld, setWebEnbld] = useState(settings.webEnbld);
+  const [notificationTypes, setNotificationTypes] = useState(
+    settings.notifTypes || []
+  );
 
-  const handleEmail = async () => {
+  const handleCheckboxChange = async (type: string, label: string) => {
+    const updatedNotificationTypes = notificationTypes.includes(type)
+      ? notificationTypes.filter((t) => t !== type)
+      : [...notificationTypes, type];
+
     try {
       const res = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_API_URL
-        }/v1/settings/updateEmailEnbld?userId=${sessionUserId}&newEmailEnbld=${!emailEnbld}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/settings/updateNotifTypes`,
         {
           method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: sessionUserId,
+            newNotifTypes: updatedNotificationTypes,
+          }),
         }
       );
 
@@ -33,34 +43,27 @@ const NotificationsChannelCard: React.FC<{
         throw new Error('Internal Server Error');
       }
 
-      alert('Email toggled');
-    } catch (error) {
-      console.error(error);
-      alert('Error enabling email');
-    }
-  };
-
-  const handleWeb = async () => {
-    try {
-      const res = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_API_URL
-        }/v1/settings/updateWebEnbld?userId=${sessionUserId}&newWebEnbld=${!webEnbld}`,
-        {
-          method: 'PUT',
-        }
+      setNotificationTypes(updatedNotificationTypes);
+      alert(
+        `${label} ${
+          updatedNotificationTypes.includes(type)
+            ? 'notification enabled'
+            : 'notification disabled'
+        }`
       );
-
-      if (!res.ok) {
-        throw new Error('Internal Server Error');
-      }
-
-      alert('Web toggled');
     } catch (error) {
       console.error(error);
-      alert('Error enabling web');
+      alert(`Error toggling ${type}`);
     }
   };
+
+  const notificationTypeCheckboxes = [
+    { type: 'EXP_SUM', label: 'Expense Summary' },
+    { type: 'LOAN_CMPLTD', label: 'Loan Completed' },
+    { type: 'LOAN_RMND', label: 'Loan Reminder' },
+    { type: 'SAV_CMPLTD', label: 'Savings Completed' },
+    { type: 'SAV_RMND', label: 'Savings Reminder' },
+  ];
 
   return (
     <Card>
@@ -72,12 +75,27 @@ const NotificationsChannelCard: React.FC<{
       </CardHeader>
       <CardContent>
         <div className="flex flex-col space-y-5">
-         
-         
+          {notificationTypeCheckboxes.map(({ type, label }) => (
+            <div className="flex items-center space-x-2" key={type}>
+              <Checkbox
+                key={type}
+                checked={notificationTypes.includes(type)}
+                onClick={() => {
+                  setNotificationTypes((prev) =>
+                    prev.includes(type)
+                      ? prev.filter((t) => t !== type)
+                      : [...prev, type]
+                  );
+                  handleCheckboxChange(type, label);
+                }}
+              />
+              <p>{label}</p>
+            </div>
+          ))}
         </div>
       </CardContent>
     </Card>
   );
 };
 
-export default NotificationsChannelCard;
+export default NotificationsTypeCard;

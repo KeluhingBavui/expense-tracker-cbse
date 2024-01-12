@@ -8,6 +8,8 @@ import Field from '@/components/settings/Field';
 import LanguageField from '@/components/settings/LanguageField';
 import ThemeField from '@/components/settings/ThemeField';
 import NotificationsChannelCard from '@/components/settings/NotificationsChannelCard';
+import NotificationsTypeCard from '@/components/settings/NotificationsTypeCard';
+
 const fetchSettings = async (userId: string) => {
   const { data } = await axios.get(`/settings`, {
     params: { userId },
@@ -45,6 +47,10 @@ const SettingsPage = async () => {
           <Separator className="my-2" />
           <h2 className="font-semibold text-2xl"> Notification Settings</h2>
           <NotificationsChannelCard
+            settings={settings}
+            sessionUserId={session?.user.id!}
+          />
+          <NotificationsTypeCard
             settings={settings}
             sessionUserId={session?.user.id!}
           />

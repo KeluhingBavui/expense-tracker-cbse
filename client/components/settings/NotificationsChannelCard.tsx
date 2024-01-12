@@ -33,7 +33,7 @@ const NotificationsChannelCard: React.FC<{
         throw new Error('Internal Server Error');
       }
 
-      alert('Email toggled');
+      alert(`Email notifications ${emailEnbld ? 'disabled' : 'enabled'}`);
     } catch (error) {
       console.error(error);
       alert('Error enabling email');
@@ -55,7 +55,7 @@ const NotificationsChannelCard: React.FC<{
         throw new Error('Internal Server Error');
       }
 
-      alert('Web toggled');
+      alert(`Web notifications ${webEnbld ? 'disabled' : 'enabled'}`);
     } catch (error) {
       console.error(error);
       alert('Error enabling web');
