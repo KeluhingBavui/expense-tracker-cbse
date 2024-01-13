@@ -353,7 +353,7 @@ export const SavingTableColumns: ColumnDef<Saving>[] = [
     },
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("to_save_amount"));
-      if (amount < 0) {
+      if (amount <= 0) {
         return <span className="text-green-500">Completed</span>;
       } else {
         return <span>{String(amount)}</span>;
