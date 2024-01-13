@@ -69,14 +69,6 @@ export default function Navbar({ notifications }: NavbarProps) {
               </NavigationMenuLink>
             </button>
           </NavigationMenuItem>
-          {/* Logout Button */}
-          <NavigationMenuItem>
-            <button onClick={logout}>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Logout
-              </NavigationMenuLink>
-            </button>
-          </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuTrigger>Notifications</NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -108,6 +100,14 @@ export default function Navbar({ notifications }: NavbarProps) {
                 </div>
               </ScrollArea>
             </NavigationMenuContent>
+          </NavigationMenuItem>
+          {/* Logout Button */}
+          <NavigationMenuItem>
+            <button onClick={logout}>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Logout
+              </NavigationMenuLink>
+            </button>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
