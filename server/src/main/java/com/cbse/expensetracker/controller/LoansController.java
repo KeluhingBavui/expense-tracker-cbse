@@ -47,7 +47,7 @@ public class LoansController {
     Loan savedLoan =  this.loansService.saveLoan(updatedLoan);
     if (savedLoan.getStatus().equals("Settled")) {
       // Send notification
-      String notificationMessage = "Congratulations! Your loan with " + savedLoan.getPerson() + " totaling" +
+      String notificationMessage = "Congratulations! Your loan with " + savedLoan.getPerson() + " totaling " +
       savedLoan.getAmount() + " has been settled!";
       notificationsService.sendNotif(savedLoan.getUserId(), notificationMessage, "LOAN_CMPLTD");
     }

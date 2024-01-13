@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -23,9 +24,21 @@ public class Notifications {
     private String message;
     private String type;
 
-    public Notifications(UUID userId, String message, String type) {
+    @Column(name="web_enabled")
+    private Boolean webEnabled;
+
+    @Column(name="created_at")
+    private Date createdAt;
+
+    public Notifications(UUID userId, String message, String type, Boolean webEnabled) {
         this.userId = userId;
         this.message = message;
         this.type = type;
+        this.webEnabled = webEnabled;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Date();
     }
 }
