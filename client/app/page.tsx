@@ -15,7 +15,6 @@ import {
 import { Category } from "@/types/category";
 import { Expense } from "@/types/expense";
 import { createServerClient } from "@supabase/ssr";
-import { Session } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -64,7 +63,6 @@ async function getExpenses(
 
 async function getCategoriesByUserId(
   userId: string,
-  session: Session
 ): Promise<Category[] | undefined> {
   try {
     const response = await fetch(
@@ -110,7 +108,7 @@ export default async function Home() {
   }
 
   const expenses = await getExpenses(session.user.id);
-  const categories = await getCategoriesByUserId(session.user.id, session);
+  const categories = await getCategoriesByUserId(session.user.id);
 
   if (!expenses) {
     throw new Error("Error fetching expenses");
