@@ -3,14 +3,14 @@ import CreateExpenseForm from "@/components/create-expense-form";
 import DisplayCard from "@/components/display-card";
 import { DataTable } from "@/components/ui/data-table";
 import {
-  expensesInCurrentMonth,
-  expensesInCurrentWeek,
-  expensesInCurrentYear,
-  expensesToday,
-  leastSpentDay,
+  getExpensesInCurrentMonth,
+  getExpensesInCurrentWeek,
+  getExpensesInCurrentYear,
+  getExpensesToday,
+  getLeastExpensesDay,
+  getMostExpensesDay,
+  getOverallExpenses,
   mostSpentCategory,
-  mostSpentDay,
-  overallExpenses,
 } from "@/lib/utils";
 import { Category } from "@/types/category";
 import { Expense } from "@/types/expense";
@@ -139,32 +139,32 @@ export default async function Home() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <DisplayCard
           title="Overall Expenses"
-          content={overallExpenses(expenses).toString()}
+          content={(await getOverallExpenses(session.user.id)).toFixed(2)}
         />
         <DisplayCard
           title="This Year"
-          content={expensesInCurrentYear(expenses).toString()}
+          content={(await getExpensesInCurrentYear(session.user.id)).toFixed(2)}
         />
         <DisplayCard
           title="This Month"
-          content={expensesInCurrentMonth(expenses).toString()}
+          content={(await getExpensesInCurrentMonth(session.user.id)).toFixed(2)}
         />
         <DisplayCard
           title="This Week"
-          content={expensesInCurrentWeek(expenses).toString()}
+          content={(await getExpensesInCurrentWeek(session.user.id)).toFixed(2)}
         />
         <DisplayCard
           title="Today"
-          content={expensesToday(expenses).toString()}
+          content={(await getExpensesToday(session.user.id)).toFixed(2)}
         />
         <DisplayCard
           title="Most Spent Category"
           content={mostSpentCategory(expensesWithCategoryName)}
         />
-        <DisplayCard title="Most Spent Day" content={mostSpentDay(expenses)} />
+        <DisplayCard title="Most Spent Day" content={await getMostExpensesDay(session.user.id)} />
         <DisplayCard
           title="Least Spent Day"
-          content={leastSpentDay(expenses)}
+          content={await getLeastExpensesDay(session.user.id)}
         />
       </div>
 
