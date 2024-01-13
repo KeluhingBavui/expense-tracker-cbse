@@ -57,6 +57,62 @@ public class ExpensesController {
             return new ResponseEntity<>(expense, HttpStatus.OK);
         }
     }
+
+    @GetMapping("/overall")
+    public ResponseEntity<Double> getUserOverallExpenses(
+            @RequestParam(name = "userId") UUID userId
+    ) {
+        double overallExpenses = this.expensesService.getUserOverallExpenses(userId);
+        return new ResponseEntity<Double>(overallExpenses, HttpStatus.OK);
+    }
+
+    @GetMapping("/current-year")
+    public ResponseEntity<Double> getUserExpensesInCurrentYear(
+            @RequestParam(name = "userId") UUID userId
+    ) {
+        double expenses = this.expensesService.getUserExpensesInCurrentYear(userId);
+        return new ResponseEntity<Double>(expenses, HttpStatus.OK);
+    }
+
+    @GetMapping("/current-month")
+    public ResponseEntity<Double> getUserExpensesInCurrentMonth(
+            @RequestParam(name = "userId") UUID userId
+    ) {
+        double expenses = this.expensesService.getUserExpensesInCurrentMonth(userId);
+        return new ResponseEntity<Double>(expenses, HttpStatus.OK);
+    }
+
+    @GetMapping("/current-week")
+    public ResponseEntity<Double> getUserExpensesInCurrentWeek(
+            @RequestParam(name = "userId") UUID userId
+    ) {
+        double expenses = this.expensesService.getUserExpensesInCurrentWeek(userId);
+        return new ResponseEntity<Double>(expenses, HttpStatus.OK);
+    }
+
+    @GetMapping("/today")
+    public ResponseEntity<Double> getUserExpensesToday(
+            @RequestParam(name = "userId") UUID userId
+    ) {
+        double expenses = this.expensesService.getUserExpensesToday(userId);
+        return new ResponseEntity<Double>(expenses, HttpStatus.OK);
+    }
+
+    @GetMapping("/most-day")
+    public ResponseEntity<String> getUserMostSpentDay(
+            @RequestParam(name = "userId") UUID userId
+    ) {
+        String day = this.expensesService.getUserMostSpentDay(userId);
+        return new ResponseEntity<String>(day, HttpStatus.OK);
+    }
+
+    @GetMapping("/least-day")
+    public ResponseEntity<String> getUserLeastSpentDay(
+            @RequestParam(name = "userId") UUID userId
+    ) {
+        String day = this.expensesService.getUserLeastSpentDay(userId);
+        return new ResponseEntity<String>(day, HttpStatus.OK);
+    }
     
     @PostMapping()
     public Expenses createExpense(@RequestBody Expenses expense) {
