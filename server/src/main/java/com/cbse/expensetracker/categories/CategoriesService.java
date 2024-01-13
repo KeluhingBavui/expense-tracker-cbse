@@ -43,20 +43,20 @@ public class CategoriesService {
         return categoriesRepository.save(foundCategory);
     }
 
-    // public Categories saveExpenseToCategory (UUID categoryId, UUID expensesId){
-    //     Categories foundCategory = checkExist(categoryId);
-    //     List<UUID> existingExpensesId = foundCategory.getExpensesId();
-    //     // Append new expensesId into pre existing list of expensesId
-    //     existingExpensesId.add(expensesId);
-    //     foundCategory.setExpensesId(existingExpensesId);
-    //     return categoriesRepository.save(foundCategory);
+    public Categories saveExpenseToCategory (UUID categoryId, UUID expensesId){
+        Categories foundCategory = checkExist(categoryId);
+        List<UUID> existingExpensesId = foundCategory.getExpensesId();
+        // Append new expensesId into pre existing list of expensesId
+        existingExpensesId.add(expensesId);
+        foundCategory.setExpensesId(existingExpensesId);
+        return categoriesRepository.save(foundCategory);
 
-    // }
-    // public Categories saveSavingToCategory (UUID categoryId, UUID savingsId){
-    //     Categories foundCategory = checkExist(categoryId);
-    //     List<UUID> existingSavingsId = foundCategory.getSavingsId();
-    //     existingSavingsId.add(savingsId);
-    //     foundCategory.setSavingsId(existingSavingsId);
-    //     return categoriesRepository.save(foundCategory);
-    // }
+    }
+    public Categories saveSavingToCategory (UUID categoryId, UUID savingsId){
+        Categories foundCategory = checkExist(categoryId);
+        List<UUID> existingSavingsId = foundCategory.getSavingsId();
+        existingSavingsId.add(savingsId);
+        foundCategory.setSavingsId(existingSavingsId);
+        return categoriesRepository.save(foundCategory);
+    }
 }
