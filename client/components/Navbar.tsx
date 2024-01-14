@@ -13,7 +13,6 @@ import {
 import { createBrowserClient } from "@supabase/ssr";
 import { Notification } from "@/types/notification";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 interface NavbarProps {
   notifications: Notification[] | undefined;
 }

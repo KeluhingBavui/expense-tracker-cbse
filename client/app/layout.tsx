@@ -7,7 +7,6 @@ import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import { Toaster } from '@/components/ui/toaster';
 import { Notification } from '@/types/notification';
-import { Settings } from '@/types/settings';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -42,36 +41,6 @@ async function getNotifications(
     const notifications: Notification[] = await response.json();
 
     return notifications;
-  } catch (error) {
-    console.error(error);
-    return;
-  }
-}
-
-async function getSettings(userId?: string): Promise<Settings | undefined> {
-  try {
-    let response: Response;
-
-    if (userId) {
-      response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/settings?userId=${userId}`,
-        {
-          method: 'GET',
-        }
-      );
-    } else {
-      throw new Error('No userId provided');
-    }
-
-    if (!response.ok) {
-      throw new Error(
-        'Error fetching savings: ' + response.statusText + ' ' + response.json()
-      );
-    }
-
-    const settings: Settings = await response.json();
-
-    return settings;
   } catch (error) {
     console.error(error);
     return;

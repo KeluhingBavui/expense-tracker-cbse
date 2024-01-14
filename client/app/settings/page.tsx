@@ -4,7 +4,6 @@ import { Field as CurrencyField, List } from '@/components/settings/Currency';
 import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import { Separator } from '@/components/ui/separator';
-import Field from '@/components/settings/Field';
 import LanguageField from '@/components/settings/LanguageField';
 import ThemeField from '@/components/settings/ThemeField';
 import NotificationsChannelCard from '@/components/settings/NotificationsChannelCard';

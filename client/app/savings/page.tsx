@@ -2,7 +2,6 @@ import { SavingTableColumns } from "@/components/columns";
 import CreateSavingForm from "@/components/create-saving-form";
 import DisplayCard from "@/components/display-card";
 import { DataTable } from "@/components/ui/data-table";
-import { overallExpenses } from "@/lib/utils";
 import { Saving } from "@/types/saving";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
