@@ -32,6 +32,9 @@ public class Saving {
     @Column(name = "user_id")
     private UUID userId;
 
+    @Column(name = "category_id")
+    private UUID categoryId;
+    
     public Saving(LocalDate target_date, float target_amount, float saving_amount, String purpose, String comment,
             UUID userId) {
         this.target_date = target_date;
