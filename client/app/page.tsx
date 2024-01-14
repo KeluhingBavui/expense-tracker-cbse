@@ -10,7 +10,6 @@ import {
   getLeastExpensesDay,
   getMostExpensesDay,
   getOverallExpenses,
-  mostSpentCategory,
 } from "@/lib/utils";
 import { Category } from "@/types/category";
 import { Expense } from "@/types/expense";
@@ -20,7 +19,6 @@ import { redirect } from "next/navigation";
 
 async function getExpenses(
   userId?: string,
-  categoryId?: string,
   token?: string
 ): Promise<Expense[] | undefined> {
   try {
@@ -36,16 +34,6 @@ async function getExpenses(
           },
         }
       );
-      // } else if (categoryId) {
-      //   response = await fetch(
-      //     `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses?categoryId=${categoryId}`,
-      //     {
-      //       method: "GET",
-      //       headers: {
-      //         Authorization: `Bearer ${token}`,
-      //       },
-      //     }
-      //   );
     } else {
       throw new Error("No userId or categoryId provided");
     }
@@ -98,6 +86,39 @@ async function getCategoriesByUserId(
   } catch (error) {
     console.error(error);
     return;
+  }
+}
+
+async function mostSpentCategory(
+  userId: string,
+  token?: string
+): Promise<string> {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/categories/max?userId=${userId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Error fetching categories: " +
+          response.statusText +
+          " " +
+          response.json()
+      );
+    }
+
+    const categories: Category = await response.json();
+
+    return categories.name;
+  } catch (error) {
+    console.error(error);
+    return "None";
   }
 }
 
@@ -181,7 +202,10 @@ export default async function Home() {
         />
         <DisplayCard
           title="Most Spent Category"
-          content={mostSpentCategory(expensesWithCategoryName)}
+          content={await mostSpentCategory(
+            session.user.id,
+            session.access_token
+          )}
         />
         <DisplayCard
           title="Most Spent Day"
