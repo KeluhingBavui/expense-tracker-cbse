@@ -28,14 +28,10 @@ public class Categories {
   public Categories(
     UUID id,
     String name,
-    UUID userId,
-    List<UUID> expensesId,
-    List<UUID> savingsId
+    UUID userId
   ) {
     this.id = id;
     this.name = name;
     this.userId = userId;
-    this.expensesId = expensesId;
-    this.savingsId = savingsId;
   }
 }
