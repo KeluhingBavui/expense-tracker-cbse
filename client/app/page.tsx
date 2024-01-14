@@ -20,7 +20,8 @@ import { redirect } from "next/navigation";
 
 async function getExpenses(
   userId?: string,
-  categoryId?: string
+  categoryId?: string,
+  token?: string
 ): Promise<Expense[] | undefined> {
   try {
     let response: Response;
@@ -30,15 +31,21 @@ async function getExpenses(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses?userId=${userId}`,
         {
           method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
-    } else if (categoryId) {
-      response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses?categoryId=${categoryId}`,
-        {
-          method: "GET",
-        }
-      );
+      // } else if (categoryId) {
+      //   response = await fetch(
+      //     `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses?categoryId=${categoryId}`,
+      //     {
+      //       method: "GET",
+      //       headers: {
+      //         Authorization: `Bearer ${token}`,
+      //       },
+      //     }
+      //   );
     } else {
       throw new Error("No userId or categoryId provided");
     }
@@ -63,16 +70,26 @@ async function getExpenses(
 
 async function getCategoriesByUserId(
   userId: string,
+  token?: string
 ): Promise<Category[] | undefined> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/categories/${userId}`,{
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/categories/${userId}`,
+      {
         method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
 
     if (!response.ok) {
-      throw new Error("Error fetching categories: " + response.statusText + " " + response.json());
+      throw new Error(
+        "Error fetching categories: " +
+          response.statusText +
+          " " +
+          response.json()
+      );
     }
 
     const categories: Category[] = await response.json();
@@ -107,8 +124,11 @@ export default async function Home() {
     redirect("/login");
   }
 
-  const expenses = await getExpenses(session.user.id);
-  const categories = await getCategoriesByUserId(session.user.id);
+  const expenses = await getExpenses(session.user.id, session.access_token);
+  const categories = await getCategoriesByUserId(
+    session.user.id,
+    session.access_token
+  );
 
   if (!expenses) {
     throw new Error("Error fetching expenses");
@@ -147,7 +167,9 @@ export default async function Home() {
         />
         <DisplayCard
           title="This Month"
-          content={(await getExpensesInCurrentMonth(session.user.id)).toFixed(2)}
+          content={(await getExpensesInCurrentMonth(session.user.id)).toFixed(
+            2
+          )}
         />
         <DisplayCard
           title="This Week"
@@ -161,7 +183,10 @@ export default async function Home() {
           title="Most Spent Category"
           content={mostSpentCategory(expensesWithCategoryName)}
         />
-        <DisplayCard title="Most Spent Day" content={await getMostExpensesDay(session.user.id)} />
+        <DisplayCard
+          title="Most Spent Day"
+          content={await getMostExpensesDay(session.user.id)}
+        />
         <DisplayCard
           title="Least Spent Day"
           content={await getLeastExpensesDay(session.user.id)}
