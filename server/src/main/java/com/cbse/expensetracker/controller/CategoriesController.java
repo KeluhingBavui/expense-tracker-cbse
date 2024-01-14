@@ -39,12 +39,12 @@ public class CategoriesController {
         return categoriesService.assignCategoryToUser(id, userId);
     }
 
-    @PutMapping("/expenses/{id}")
-    public Categories saveExpenseToCategory(@PathVariable UUID id, @RequestBody UUID expensesId) {
-        return categoriesService.saveExpenseToCategory(id, expensesId);
-    }
-    @PutMapping("/savings/{id}")
-    public Categories saveSavingToCategory(@PathVariable UUID id, @RequestBody UUID savingsId) {
-        return categoriesService.saveSavingToCategory(id, savingsId);
-    }
+    // @PutMapping("/expenses/{id}")
+    // public Categories saveExpenseToCategory(@PathVariable UUID id, @RequestBody UUID expensesId) {
+    //     return categoriesService.saveExpenseToCategory(id, expensesId);
+    // }
+    // @PutMapping("/savings/{id}")
+    // public Categories saveSavingToCategory(@PathVariable UUID id, @RequestBody UUID savingsId) {
+    //     return categoriesService.saveSavingToCategory(id, savingsId);
+    // }
 }

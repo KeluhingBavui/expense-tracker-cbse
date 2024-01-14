@@ -24,12 +24,6 @@ public class Categories {
       
   @Column(name = "user_id")
   private UUID userId;
-  
-  @Column(name = "expenses_id")
-  private List<UUID> expensesId;
-
-  @Column(name = "savings_id")
-  private List<UUID> savingsId;
 
   public Categories(
     UUID id,
