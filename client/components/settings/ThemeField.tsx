@@ -10,7 +10,6 @@ import { Label } from '../ui/label';
 const options = [
   { value: 'light', label: 'Light' },
   { value: 'dark', label: 'Dark' },
-  { value: 'system', label: 'System' },
 ];
 
 const ThemeField = ({ theme }: { theme: string }) => {
@@ -59,6 +58,16 @@ const ThemeField = ({ theme }: { theme: string }) => {
         options={options}
         defaultValue={selectedtheme}
         onChange={handleThemeChange}
+        theme={(theme) => ({
+          ...theme,
+          borderRadius: 0,
+          colors: {
+            ...theme.colors,
+            primary25: selectedtheme?.value === 'dark' ? '#1f2937' : '#ffffff',
+            neutral0: selectedtheme?.value === 'dark' ? '#1f2937' : '#ffffff',
+            neutral80: selectedtheme?.value === 'dark' ? '#ffffff' : '#1f2937',
+          },
+        })}
       />
     </div>
   );

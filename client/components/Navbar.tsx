@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -9,10 +9,10 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import { createBrowserClient } from "@supabase/ssr";
-import { Notification } from "@/types/notification";
-import { ScrollArea } from "@/components/ui/scroll-area";
+} from '@/components/ui/navigation-menu';
+import { createBrowserClient } from '@supabase/ssr';
+import { Notification } from '@/types/notification';
+import { ScrollArea } from '@/components/ui/scroll-area';
 interface NavbarProps {
   notifications: Notification[] | undefined;
 }
@@ -27,10 +27,9 @@ export default function Navbar({ notifications }: NavbarProps) {
 
   async function logout() {
     await supabase.auth.signOut();
+    router.push('/login');
     router.refresh();
   }
-
-  console.log(notifications);
 
   return (
     <>
@@ -38,23 +37,16 @@ export default function Navbar({ notifications }: NavbarProps) {
         <NavigationMenuList>
           {/* Home Button */}
           <NavigationMenuItem>
-            <button onClick={() => router.push("/")}>
+            <button onClick={() => router.push('/')}>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Home
               </NavigationMenuLink>
             </button>
           </NavigationMenuItem>
-          {/* Profile Button */}
-          <NavigationMenuItem>
-            <button onClick={() => router.push("/profile")}>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Profile
-              </NavigationMenuLink>
-            </button>
-          </NavigationMenuItem>
+
           {/* Savings Button */}
           <NavigationMenuItem>
-            <button onClick={() => router.push("/savings")}>
+            <button onClick={() => router.push('/savings')}>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Savings
               </NavigationMenuLink>
@@ -62,7 +54,7 @@ export default function Navbar({ notifications }: NavbarProps) {
           </NavigationMenuItem>
           {/* Loans Button */}
           <NavigationMenuItem>
-            <button onClick={() => router.push("/loans")}>
+            <button onClick={() => router.push('/loans')}>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Loans
               </NavigationMenuLink>
@@ -70,7 +62,7 @@ export default function Navbar({ notifications }: NavbarProps) {
           </NavigationMenuItem>
           {/* Settings Button */}
           <NavigationMenuItem>
-            <button onClick={() => router.push("/settings")}>
+            <button onClick={() => router.push('/settings')}>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Settings
               </NavigationMenuLink>
@@ -107,6 +99,14 @@ export default function Navbar({ notifications }: NavbarProps) {
                 </div>
               </ScrollArea>
             </NavigationMenuContent>
+          </NavigationMenuItem>
+          {/* Profile Button */}
+          <NavigationMenuItem>
+            <button onClick={() => router.push('/profile')}>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Profile
+              </NavigationMenuLink>
+            </button>
           </NavigationMenuItem>
           {/* Logout Button */}
           <NavigationMenuItem>

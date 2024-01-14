@@ -5,6 +5,7 @@ import { axios } from '@/lib/axios';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { Label } from '../ui/label';
+import { useTheme } from 'next-themes';
 
 const options = [
   { value: 'en', label: 'English' },
@@ -15,6 +16,7 @@ const options = [
 
 const LanguageField = ({ language }: { language: string }) => {
   const { session } = useUserSession();
+  const { theme: nextTheme } = useTheme();
   const [selectedLanguage, setSelectedLanguage] = useState<{
     value: string;
     label: string;
@@ -55,6 +57,16 @@ const LanguageField = ({ language }: { language: string }) => {
         options={options}
         defaultValue={selectedLanguage}
         onChange={handleLanguageChange}
+        theme={(theme) => ({
+          ...theme,
+          borderRadius: 0,
+          colors: {
+            ...theme.colors,
+            primary25: nextTheme === 'dark' ? '#1f2937' : '#ffffff',
+            neutral0: nextTheme === 'dark' ? '#1f2937' : '#ffffff',
+            neutral80: nextTheme === 'dark' ? '#ffffff' : '#1f2937',
+          },
+        })}
       />
     </div>
   );
