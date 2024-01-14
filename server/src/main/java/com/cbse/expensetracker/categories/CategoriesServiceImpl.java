@@ -20,7 +20,7 @@ import com.cbse.expensetracker.shared.entity.Expenses;
 import com.cbse.expensetracker.shared.repository.CategoriesRepository;
 
 @Service
-public class CategoriesServiceImpl implements CategoriesService{
+public class CategoriesServiceImpl implements CategoriesService {
     private final CategoriesRepository categoriesRepository;
 
     @Autowired
@@ -39,8 +39,8 @@ public class CategoriesServiceImpl implements CategoriesService{
         Categories foundCategory = checkExist(categoryId);
         return foundCategory;
     }
-    public List<Categories> getCategoriesByUserId (UUID userId){
 
+    public List<Categories> getCategoriesByUserId (UUID userId){
             List<Categories> toFind = categoriesRepository.findByUserId(userId);
             if(toFind.size() == 0)
                 throw new ErrorResponseException(HttpStatus.NOT_FOUND);
@@ -48,12 +48,7 @@ public class CategoriesServiceImpl implements CategoriesService{
                 return toFind;
     }
 
-    public Categories assignCategoryToUser (UUID categoryId, UUID userId) {
-        Categories foundCategory = checkExist(categoryId);
-        foundCategory.setUserId(userId);
-        return categoriesRepository.save(foundCategory);
-    }
-
+    @Override
     public UUID mostSpentCategory(List<Expenses> expenses) {
         if (expenses.isEmpty()) {
            throw new ErrorResponseException(HttpStatus.UNPROCESSABLE_ENTITY);
