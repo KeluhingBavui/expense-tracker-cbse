@@ -31,14 +31,8 @@ public class ProfileController {
     private final ProfileService profileService;
     
     @GetMapping("/{userId}")
-    public Profile getProfile(@RequestParam UUID userId) {
+    public Profile getProfile(@PathVariable UUID userId) {
         return profileService.getProfile(userId);
-    }
-    
-    @PostMapping("")
-    public Profile createProfile(@RequestBody Profile newProfile) {
-        Profile createdProfile = profileService.createProfile(newProfile);
-        return createdProfile;
     }
     
     @PatchMapping("/{userId}")
@@ -46,8 +40,4 @@ public class ProfileController {
         return profileService.updateProfile(userId, newProfile);
     }
 
-    @DeleteMapping("/{userId}")
-    public void clearProfile(@PathVariable UUID userId) {
-        profileService.clearProfile(userId);
-    }
 }

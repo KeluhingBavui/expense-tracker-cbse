@@ -21,9 +21,9 @@ public class WebClientConfig implements WebMvcConfigurer{
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        List<String> supportedPaths = new ArrayList<String>();  
-        supportedPaths.add("/api/v1/categories/*");
+        List<String> supportedPaths = new ArrayList<String>();
         supportedPaths.add("/api/v1/profile/*");
+        supportedPaths.add("/api/v1/categories/*");
         registry.addInterceptor(new AuthInterceptor()).addPathPatterns(supportedPaths);
     }
 }

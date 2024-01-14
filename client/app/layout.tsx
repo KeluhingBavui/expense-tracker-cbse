@@ -117,7 +117,7 @@ export default async function RootLayout({
         >
           <Toaster />
           {session && <Navbar notifications={notifications} />}
-          <main className="container">{children}</main>
+          <main className="container mx-auto pt-4">{children}</main>
         </ThemeProvider>
       </body>
     </html>

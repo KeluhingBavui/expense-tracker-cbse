@@ -7,7 +7,10 @@ package com.cbse.expensetracker.controller;
 
 import com.cbse.expensetracker.expenses.ExpensesService;
 import com.cbse.expensetracker.shared.entity.Expenses;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -99,19 +102,23 @@ public class ExpensesController {
     }
 
     @GetMapping("/most-day")
-    public ResponseEntity<String> getUserMostSpentDay(
+    public ResponseEntity<Map> getUserMostSpentDay(
             @RequestParam(name = "userId") UUID userId
     ) {
         String day = this.expensesService.getUserMostSpentDay(userId);
-        return new ResponseEntity<String>(day, HttpStatus.OK);
+        Map<String, String> data = new HashMap<>();
+        data.put("data", day);
+        return new ResponseEntity<Map>(data, HttpStatus.OK);
     }
 
     @GetMapping("/least-day")
-    public ResponseEntity<String> getUserLeastSpentDay(
+    public ResponseEntity<Map> getUserLeastSpentDay(
             @RequestParam(name = "userId") UUID userId
     ) {
         String day = this.expensesService.getUserLeastSpentDay(userId);
-        return new ResponseEntity<String>(day, HttpStatus.OK);
+        Map<String, String> data = new HashMap<>();
+        data.put("data", day);
+        return new ResponseEntity<Map>(data, HttpStatus.OK);
     }
     
     @PostMapping()

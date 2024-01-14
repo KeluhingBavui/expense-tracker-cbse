@@ -6,62 +6,145 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-/**
- * Returns the overall expenses
- * @param expenses - array of expenses
- * @returns number
- */
-export function overallExpenses(expenses: Expense[]) {
-  return expenses.reduce((acc, expense) => acc + expense.expense, 0);
+export async function getOverallExpenses(userId: string): Promise<number> {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses/overall?userId=${userId}`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Error fetching overall expenses: " +
+          response.statusText +
+          " " +
+          response.json()
+      );
+    }
+
+    const overallExpenses: number = await response.json();
+
+    return overallExpenses;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching overall expenses: " + error);
+  }
 }
 
-/**
- * Returns the overall expenses in the current year
- * @param expenses - array of expenses
- * @returns number
- */
-export function expensesInCurrentYear(expenses: Expense[]) {
-  const currentYear = new Date().getFullYear();
-  return expenses
-    .filter((expense) => new Date(expense.date).getFullYear() === currentYear)
-    .reduce((acc, expense) => acc + expense.expense, 0);
+export async function getExpensesInCurrentYear(
+  userId: string
+): Promise<number> {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses/current-year?userId=${userId}`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Error fetching expenses in current year: " +
+          response.statusText +
+          " " +
+          response.json()
+      );
+    }
+
+    const expensesInCurrentYear: number = await response.json();
+
+    return expensesInCurrentYear;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching expenses in current year: " + error);
+  }
 }
 
-/**
- * Returns the overall expenses in the current month
- * @param expenses - array of expenses
- * @returns number
- */
-export function expensesInCurrentMonth(expenses: Expense[]) {
-  const currentMonth = new Date().getMonth();
-  return expenses
-    .filter((expense) => new Date(expense.date).getMonth() === currentMonth)
-    .reduce((acc, expense) => acc + expense.expense, 0);
+export async function getExpensesInCurrentMonth(
+  userId: string
+): Promise<number> {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses/current-month?userId=${userId}`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Error fetching expenses in current month: " +
+          response.statusText +
+          " " +
+          response.json()
+      );
+    }
+
+    const expensesInCurrentMonth: number = await response.json();
+
+    return expensesInCurrentMonth;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching expenses in current month: " + error);
+  }
 }
 
-/**
- * Returns the overall expenses in the current week
- * @param expenses - array of expenses
- * @returns number
- */
-export function expensesInCurrentWeek(expenses: Expense[]) {
-  const today = new Date();
-  const currentWeek = today.getDate() - today.getDay();
-  return expenses
-    .filter((expense) => new Date(expense.date).getDate() >= currentWeek)
-    .reduce((acc, expense) => acc + expense.expense, 0);
+export async function getExpensesInCurrentWeek(
+  userId: string
+): Promise<number> {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses/current-week?userId=${userId}`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Error fetching expenses in current week: " +
+          response.statusText +
+          " " +
+          response.json()
+      );
+    }
+
+    const expensesInCurrentWeek: number = await response.json();
+
+    return expensesInCurrentWeek;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching expenses in current week: " + error);
+  }
 }
 
-/**
- * Returns the overall expenses in the current day
- * @param expenses - array of expenses
- * @returns number
- */
-export function expensesToday(expenses: Expense[]) {
-  const today = new Date().toISOString().split("T")[0];
-  return expenses
-    .filter((expense) => expense.date === today)
-    .reduce((acc, expense) => acc + expense.expense, 0);
+export async function getExpensesToday(userId: string): Promise<number> {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses/today?userId=${userId}`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Error fetching expenses today: " +
+          response.statusText +
+          " " +
+          response.json()
+      );
+    }
+
+    const expensesToday: number = await response.json();
+
+    return expensesToday;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching expenses today: " + error);
+  }
 }
 
 /**
@@ -92,74 +175,62 @@ export function mostSpentCategory(
         .reduce((acc, expense) => acc + expense.expense, 0),
     };
   });
-  const sortedCategoryExpenses = categoryExpenses.toSorted(
+  const sortedCategoryExpenses = categoryExpenses.sort(
     (a, b) => b.expense - a.expense
   );
   return sortedCategoryExpenses[0].category;
 }
 
-/**
- * Returns the day with the most expenses (e.g Monday, Tuesday, etc.)
- * @param expenses - array of expenses
- * @returns string
- */
-export function mostSpentDay(expenses: Expense[]) {
-  if (expenses.length === 0) return "No expenses yet";
+export async function getMostExpensesDay(userId: string): Promise<string> {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses/most-day?userId=${userId}`,
+      {
+        method: "GET",
+      }
+    );
 
-  const days = expenses.map((expense) => new Date(expense.date).getDay());
-  const uniqueDays = [...new Set(days)];
-  const dayExpenses = uniqueDays.map((day) => {
-    return {
-      day,
-      expense: expenses
-        .filter((expense) => new Date(expense.date).getDay() === day)
-        .reduce((acc, expense) => acc + expense.expense, 0),
-    };
-  });
-  const sortedDayExpenses = dayExpenses.toSorted(
-    (a, b) => b.expense - a.expense
-  );
-  return getDayName(sortedDayExpenses[0].day);
+    if (!response.ok) {
+      throw new Error(
+        "Error fetching most expenses day: " +
+          response.statusText +
+          " " +
+          response.json()
+      );
+    }
+
+    const mostExpensesDay: any = await response.json();
+
+    return mostExpensesDay.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching most expenses day: " + error);
+  }
 }
 
-/**
- * Returns the day name from the day number
- * @param day - day number
- * @returns string
- */
-export function getDayName(day: number) {
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  return days[day];
-}
+export async function getLeastExpensesDay(userId: string): Promise<string> {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses/least-day?userId=${userId}`,
+      {
+        method: "GET",
+      }
+    );
 
-/**
- * Returns the category with the least expenses
- * @param expenses - array of expenses
- * @returns string
- */
-export function leastSpentDay(expenses: Expense[]) {
-  if (expenses.length === 0) return "No expenses yet";
+    if (!response.ok) {
+      throw new Error(
+        "Error fetching least expenses day: " +
+          response.statusText +
+          " " +
+          response.json()
+      );
+    }
 
-  const days = expenses.map((expense) => new Date(expense.date).getDay());
-  const uniqueDays = [...new Set(days)];
-  const dayExpenses = uniqueDays.map((day) => {
-    return {
-      day,
-      expense: expenses
-        .filter((expense) => new Date(expense.date).getDay() === day)
-        .reduce((acc, expense) => acc + expense.expense, 0),
-    };
-  });
-  const sortedDayExpenses = dayExpenses.toSorted(
-    (a, b) => a.expense - b.expense
-  );
-  return getDayName(sortedDayExpenses[0].day);
+    const leastExpensesDay: any = await response.json();
+
+    return leastExpensesDay.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching least expenses day: " + error);
+  }
 }
