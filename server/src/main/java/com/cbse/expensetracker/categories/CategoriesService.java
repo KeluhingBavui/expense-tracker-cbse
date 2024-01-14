@@ -1,12 +1,9 @@
 package com.cbse.expensetracker.categories;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -69,20 +66,5 @@ public class CategoriesService {
         return Collections.max(categoryTotals.entrySet(), Map.Entry.comparingByValue())
                           .getKey();
     }
-    // public Categories saveExpenseToCategory (UUID categoryId, UUID expensesId){
-    //     Categories foundCategory = checkExist(categoryId);
-    //     List<UUID> existingExpensesId = foundCategory.getExpensesId();
-    //     // Append new expensesId into pre existing list of expensesId
-    //     existingExpensesId.add(expensesId);
-    //     foundCategory.setExpensesId(existingExpensesId);
-    //     return categoriesRepository.save(foundCategory);
 
-    // }
-    // public Categories saveSavingToCategory (UUID categoryId, UUID savingsId){
-    //     Categories foundCategory = checkExist(categoryId);
-    //     List<UUID> existingSavingsId = foundCategory.getSavingsId();
-    //     existingSavingsId.add(savingsId);
-    //     foundCategory.setSavingsId(existingSavingsId);
-    //     return categoriesRepository.save(foundCategory);
-    // }
 }
