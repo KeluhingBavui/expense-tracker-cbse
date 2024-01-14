@@ -3,29 +3,26 @@ package com.cbse.expensetracker.controller;
 import java.util.List;
 import java.util.UUID;
 
+import com.cbse.expensetracker.notifications.NotificationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.cbse.expensetracker.loans.LoansService;
 import com.cbse.expensetracker.shared.entity.Loan;
 
 @RestController
 @RequestMapping(path = "api/v1/loans")
+@CrossOrigin(origins = "http://localhost:3000")
 public class LoansController {
   private final LoansService loansService;
+  private final NotificationsService notificationsService;
 
   @Autowired
-  public LoansController(LoansService loansService) {
+  public LoansController(LoansService loansService, NotificationsService notificationsService) {
     this.loansService = loansService;
+    this.notificationsService = notificationsService;
   }
 
   @GetMapping()
@@ -46,8 +43,15 @@ public class LoansController {
   }
 
   @PutMapping()
-  public Loan updateLoan(@RequestBody Loan updatedLoan) {
-    return this.loansService.saveLoan(updatedLoan);
+  public ResponseEntity<Loan> updateLoan(@RequestBody Loan updatedLoan) {
+    Loan savedLoan =  this.loansService.saveLoan(updatedLoan);
+    if (savedLoan.getStatus().equals("Settled")) {
+      // Send notification
+      String notificationMessage = "Congratulations! Your loan with " + savedLoan.getPerson() + " totaling " +
+      savedLoan.getAmount() + " has been settled!";
+      notificationsService.sendNotif(savedLoan.getUserId(), notificationMessage, "LOAN_CMPLTD");
+    }
+    return new ResponseEntity<>(savedLoan, HttpStatus.OK);
   }
 
   @DeleteMapping()

@@ -21,4 +21,20 @@ public interface ExpensesService {
     List<Expenses> getExpensesByCategoryId(UUID categoryId);
     
     void deleteById(UUID id);
+
+    double getUserOverallExpenses(UUID userId);
+
+    double getUserExpensesInCurrentYear(UUID userId);
+
+    double getUserExpensesInCurrentMonth(UUID userId);
+
+    double getUserExpensesInCurrentWeek(UUID userId);
+
+    double getUserExpensesToday(UUID userId);
+
+    String getUserMostSpentDay(UUID userId);
+
+    String getUserLeastSpentDay(UUID userId);
+
+    void sendWeeklyExpenseSummary();
 }
