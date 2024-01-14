@@ -13,8 +13,10 @@ public class AuthInterceptor implements HandlerInterceptor{
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-                String bearer = request.getHeader("Authorization").replace("Bearer ", "");
-                if(bearer.isBlank() || bearer.isEmpty())
+                String bearer = request.getHeader("Authorization");
+                String token = bearer.replace("Bearer ", "");
+
+                if(token.isBlank() || token.isEmpty())
                     throw new ErrorResponseException(HttpStatus.FORBIDDEN);
         return true;
     }
