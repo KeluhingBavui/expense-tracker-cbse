@@ -36,10 +36,6 @@ public class ProfileService {
             }
     }
     
-    public Profile createProfile (Profile newProfile) {
-        return profileRepository.save(newProfile);
-    }
-    
     public Profile updateProfile (UUID userId, Profile newProfile) {
             List<Profile> toBeUpdated = profileRepository.findByUserId(userId);
             if(toBeUpdated.size() == 0)
@@ -53,7 +49,4 @@ public class ProfileService {
             }
     }
 
-    public void clearProfile (UUID userId) {
-        this.updateProfile(userId, new Profile());
-    }
 }
