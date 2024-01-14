@@ -1,11 +1,12 @@
-import { LoanTableColumns } from "@/components/columns";
-import CreateLoanForm from "@/components/create-loan-form";
-import DisplayCard from "@/components/display-card";
-import { DataTable } from "@/components/ui/data-table";
-import { Loan } from "@/types/loan";
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { LoanTableColumns } from '@/components/columns';
+import CreateLoanForm from '@/components/create-loan-form';
+import DisplayCard from '@/components/display-card';
+import { DataTable } from '@/components/ui/data-table';
+import { Loan } from '@/types/loan';
+import { createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 
 async function getLoans(userId?: string): Promise<Loan[]> {
   try {
@@ -15,16 +16,16 @@ async function getLoans(userId?: string): Promise<Loan[]> {
       response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/loans?userId=${userId}`,
         {
-          method: "GET",
+          method: 'GET',
         }
       );
     } else {
-      throw new Error("No userId provided");
+      throw new Error('No userId provided');
     }
 
     if (!response.ok) {
       throw new Error(
-        "Error fetching loans: " + response.statusText + " " + response.json()
+        'Error fetching loans: ' + response.statusText + ' ' + response.json()
       );
     }
 
@@ -44,18 +45,18 @@ async function getTotalToReceive(userId?: string): Promise<number> {
       response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/loans/to-receive?userId=${userId}`,
         {
-          method: "GET",
+          method: 'GET',
         }
       );
     } else {
-      throw new Error("No userId provided");
+      throw new Error('No userId provided');
     }
 
     if (!response.ok) {
       throw new Error(
-        "Error fetching total to receive amount: " +
+        'Error fetching total to receive amount: ' +
           response.statusText +
-          " " +
+          ' ' +
           response.json()
       );
     }
@@ -76,18 +77,18 @@ async function getTotalToRepay(userId?: string): Promise<number> {
       response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/loans/to-repay?userId=${userId}`,
         {
-          method: "GET",
+          method: 'GET',
         }
       );
     } else {
-      throw new Error("No userId provided");
+      throw new Error('No userId provided');
     }
 
     if (!response.ok) {
       throw new Error(
-        "Error fetching total to repay amount: " +
+        'Error fetching total to repay amount: ' +
           response.statusText +
-          " " +
+          ' ' +
           response.json()
       );
     }
@@ -102,6 +103,7 @@ async function getTotalToRepay(userId?: string): Promise<number> {
 
 export default async function Loans() {
   const cookieStore = cookies();
+  const t = await getTranslations('Loans');
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -120,7 +122,7 @@ export default async function Loans() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect("/login");
+    redirect('/login');
   }
 
   const loans = await getLoans(session.user.id);
@@ -132,24 +134,24 @@ export default async function Loans() {
       <div className="grid gap-4">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           <DisplayCard
-            title="Total to Receive"
+            title={t('totalToReceive')}
             content={
               totalToReceiveAmount <= 0
-                ? "Completed"
+                ? 'Completed'
                 : `MYR ${String(totalToReceiveAmount)}`
             }
           />
           <DisplayCard
-            title="Total to Repay"
+            title={t('totalToRepay')}
             content={
               totalToRepayAmount <= 0
-                ? "Completed"
+                ? 'Completed'
                 : `MYR ${String(totalToRepayAmount)}`
             }
           />
         </div>
         <div className="grid items-center grid-cols-2">
-          <h1 className="text-4xl font-semibold">My Loans</h1>
+          <h1 className="text-4xl font-semibold">{t('myLoans')}</h1>
           <CreateLoanForm buttonStyle="justify-self-end" session={session} />
         </div>
 

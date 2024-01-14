@@ -1,0 +1,73 @@
+{
+  "Auth": {
+    "loginWithGithub": "Login with GitHub",
+    "loginWithGoogle": "Login with Google"
+  },
+  "Index": {
+    "overallExpense": "Overall Expense",
+    "thisYear": "This Year",
+    "thisMonth": "This Month",
+    "thisWeek": "This Week",
+    "today": "Today",
+    "mostSpentCategory": "Most Spent Category",
+    "mostSpentDay": "Most Spent Day",
+    "leastSpentDay": "Least Spent Month",
+    "myExpenses": "My Expenses",
+    "addExpense": "Add Expense",
+    "date": "Date",
+    "expense": "Expense",
+    "category": "Category",
+    "comment": "Comment",
+    "actions": "Actions",
+    "previous": "Previous",
+    "next": "Next",
+    "filter": "Filter"
+  },
+  "Savings": {
+    "mySavings": "My Savings",
+    "totalToSave": "Total to Save",
+    "addSaving": "Add Saving",
+    "purpose": "Purpose",
+    "targetDate": "Target Date",
+    "targetAmount": "Target Amount",
+    "savingAmount": "Saving Amount",
+    "toSave": "To Save"
+  },
+  "Loans": {
+    "myLoans": "My Loans",
+    "totalToRepay": "Total to Repay",
+    "totalToReceive": "Total to Receive",
+    "addLoan": "Add Loan",
+    "amount": "Amount",
+    "type": "Type",
+    "person": "Person",
+    "status": "Status",
+    "reason": "Reason"
+  },
+  "Profile": {
+    "myProfile": "My Profile",
+    "name": "Name",
+    "age": "Age",
+    "gender": "Gender"
+  },
+  "Settings": {
+    "settings": "Settings",
+    "generalSettings": "General Settings",
+    "language": "Language",
+    "currency": "Currency",
+    "theme": "Theme",
+    "notificationSettings": "Notification Settings",
+    "notificationTypes": "Notification Types",
+    "notificationTypesDescription": "Select the types of notifications you want to receive",
+    "notificationsChannel": "Notifications Channel",
+    "notificationsChannelDescription": "Select the channel you want to receive notifications on",
+    "enableWeb": "Enable Web",
+    "enableEmail": "Enable Email",
+    "expenseSummary": "Expense Summary",
+    "loanCompleted": "Loan Completed",
+    "loanReminder": "Loan Reminder",
+    "savingsCompleted": "Savings Completed",
+    "savingsReminder": "Savings Reminder",
+    "changeLabel": "Change"
+  }
+}

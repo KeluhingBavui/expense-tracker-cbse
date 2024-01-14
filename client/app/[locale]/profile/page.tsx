@@ -1,9 +1,10 @@
-import EditProfileForm from "@/components/edit-profile-form";
-import { Card, CardContent } from "@/components/ui/card";
-import { Profile } from "@/types/profile";
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import EditProfileForm from '@/components/edit-profile-form';
+import { Card, CardContent } from '@/components/ui/card';
+import { Profile } from '@/types/profile';
+import { createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 
 async function getProfile(
   userId?: string,
@@ -16,18 +17,18 @@ async function getProfile(
       response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/profile/${userId}`,
         {
-          method: "GET",
+          method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
     } else {
-      throw new Error("No userId provided");
+      throw new Error('No userId provided');
     }
     if (!response.ok) {
       throw new Error(
-        "Error fetching profile: " + response.statusText + " " + response.json()
+        'Error fetching profile: ' + response.statusText + ' ' + response.json()
       );
     }
 
@@ -40,7 +41,7 @@ async function getProfile(
 }
 export default async function ProfilePage() {
   const cookieStore = cookies();
-
+  const t = await getTranslations('Profile');
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -58,16 +59,16 @@ export default async function ProfilePage() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect("/login");
+    redirect('/login');
   }
   const profile = await getProfile(session.user.id, session.access_token);
 
   if (!profile) {
-    throw new Error("Error fetching profile");
+    throw new Error('Error fetching profile');
   }
 
   const profileItems = Object.keys(profile)
-    .filter((val) => val !== "id" && val !== "userId")
+    .filter((val) => val !== 'id' && val !== 'userId')
     .map((value, key) => (
       <>
         <div
@@ -84,7 +85,7 @@ export default async function ProfilePage() {
   return (
     <div className="grid gap-4">
       <div className="grid items-center grid-cols-4">
-        <p className="text-4xl col-span-3">My Profile</p>
+        <p className="text-4xl col-span-3">{t('myProfile')}</p>
         <EditProfileForm profile={profile} session={session} />
       </div>
       <Card>

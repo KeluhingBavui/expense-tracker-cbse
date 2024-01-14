@@ -1,7 +1,7 @@
-import { ExpenseTableColumns } from "@/components/columns";
-import CreateExpenseForm from "@/components/create-expense-form";
-import DisplayCard from "@/components/display-card";
-import { DataTable } from "@/components/ui/data-table";
+import { ExpenseTableColumns } from '@/components/columns';
+import CreateExpenseForm from '@/components/create-expense-form';
+import DisplayCard from '@/components/display-card';
+import { DataTable } from '@/components/ui/data-table';
 import {
   getExpensesInCurrentMonth,
   getExpensesInCurrentWeek,
@@ -10,12 +10,13 @@ import {
   getLeastExpensesDay,
   getMostExpensesDay,
   getOverallExpenses,
-} from "@/lib/utils";
-import { Category } from "@/types/category";
-import { Expense } from "@/types/expense";
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+} from '@/lib/utils';
+import { Category } from '@/types/category';
+import { Expense } from '@/types/expense';
+import { createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
+import { redirect, useParams } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 
 async function getExpenses(
   userId?: string,
@@ -28,21 +29,21 @@ async function getExpenses(
       response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/expenses?userId=${userId}`,
         {
-          method: "GET",
+          method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
     } else {
-      throw new Error("No userId or categoryId provided");
+      throw new Error('No userId or categoryId provided');
     }
 
     if (!response.ok) {
       throw new Error(
-        "Error fetching expenses: " +
+        'Error fetching expenses: ' +
           response.statusText +
-          " " +
+          ' ' +
           response.json()
       );
     }
@@ -64,7 +65,7 @@ async function getCategoriesByUserId(
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/v1/categories/${userId}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -73,9 +74,9 @@ async function getCategoriesByUserId(
 
     if (!response.ok) {
       throw new Error(
-        "Error fetching categories: " +
+        'Error fetching categories: ' +
           response.statusText +
-          " " +
+          ' ' +
           response.json()
       );
     }
@@ -97,7 +98,7 @@ async function mostSpentCategory(
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/v1/categories/max?userId=${userId}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -106,9 +107,9 @@ async function mostSpentCategory(
 
     if (!response.ok) {
       throw new Error(
-        "Error fetching categories: " +
+        'Error fetching categories: ' +
           response.statusText +
-          " " +
+          ' ' +
           response.json()
       );
     }
@@ -118,11 +119,12 @@ async function mostSpentCategory(
     return categories.name;
   } catch (error) {
     console.error(error);
-    return "None";
+    return 'None';
   }
 }
 
 export default async function Home() {
+  const t = await getTranslations('Index');
   const cookieStore = cookies();
 
   const supabase = createServerClient(
@@ -142,7 +144,7 @@ export default async function Home() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect("/login");
+    redirect('/login');
   }
 
   const expenses = await getExpenses(session.user.id, session.access_token);
@@ -152,11 +154,11 @@ export default async function Home() {
   );
 
   if (!expenses) {
-    throw new Error("Error fetching expenses");
+    throw new Error('Error fetching expenses');
   }
 
   if (!categories) {
-    throw new Error("Error fetching categories");
+    throw new Error('Error fetching categories');
   }
 
   // Map the category name to the expense
@@ -166,7 +168,7 @@ export default async function Home() {
     );
 
     if (!category) {
-      throw new Error("Error finding category");
+      throw new Error('Error finding category');
     }
 
     return {
@@ -179,46 +181,46 @@ export default async function Home() {
     <div className="grid gap-4">
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <DisplayCard
-          title="Overall Expenses"
+          title={t('overallExpense')}
           content={(await getOverallExpenses(session.user.id)).toFixed(2)}
         />
         <DisplayCard
-          title="This Year"
+          title={t('thisYear')}
           content={(await getExpensesInCurrentYear(session.user.id)).toFixed(2)}
         />
         <DisplayCard
-          title="This Month"
+          title={t('thisMonth')}
           content={(await getExpensesInCurrentMonth(session.user.id)).toFixed(
             2
           )}
         />
         <DisplayCard
-          title="This Week"
+          title={t('thisWeek')}
           content={(await getExpensesInCurrentWeek(session.user.id)).toFixed(2)}
         />
         <DisplayCard
-          title="Today"
+          title={t('today')}
           content={(await getExpensesToday(session.user.id)).toFixed(2)}
         />
         <DisplayCard
-          title="Most Spent Category"
+          title={t('mostSpentCategory')}
           content={await mostSpentCategory(
             session.user.id,
             session.access_token
           )}
         />
         <DisplayCard
-          title="Most Spent Day"
+          title={t('mostSpentDay')}
           content={await getMostExpensesDay(session.user.id)}
         />
         <DisplayCard
-          title="Least Spent Day"
+          title={t('leastSpentDay')}
           content={await getLeastExpensesDay(session.user.id)}
         />
       </div>
 
       <div className="grid grid-cols-2 items-center">
-        <p className="text-4xl">My Expenses</p>
+        <p className="text-4xl">{t('myExpenses')}</p>
         <CreateExpenseForm
           buttonStyle="justify-self-end"
           categories={categories}
