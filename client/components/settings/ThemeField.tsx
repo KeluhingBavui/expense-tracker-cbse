@@ -33,9 +33,10 @@ const ThemeField = ({ theme }: { theme: string }) => {
             newTheme: selectedtheme?.value || '', // Use fallback if selectedtheme is null
           },
         });
-        console.log(selectedtheme?.value);
         // Set theme in NextJS
-        setTheme(selectedtheme?.value || 'light');
+        if (selectedtheme?.value) {
+          setTheme(selectedtheme.value);
+        }
       } catch (error) {
         console.error('Error updating theme:', error);
         // Handle errors here

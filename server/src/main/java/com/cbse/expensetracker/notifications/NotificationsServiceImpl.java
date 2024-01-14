@@ -32,6 +32,7 @@ public class NotificationsServiceImpl implements NotificationsService {
 
     @Override
     public List<Notifications> getNotificationsByUserId(UUID userId) {
+        // Assuming you have a Spring Data JPA repository for Notifications
         return this.notificationsRepository.findByUserId(userId);
     }
 
@@ -82,7 +83,7 @@ public class NotificationsServiceImpl implements NotificationsService {
 
             for (String notifType : notifTypesList) {
                 if (notifType.equals(type)) {
-                    Notifications notification = new Notifications(userId, message, type);
+                    Notifications notification = new Notifications(userId, message, type, settings.isWebEnbld());
                     savedNotification = save(notification);
                     break;
                 }
@@ -99,6 +100,7 @@ public class NotificationsServiceImpl implements NotificationsService {
                     // Send email notification using the saved notification
                     sendEmailNotif(savedNotification.getUserId(), savedNotification.getMessage());
                 }
+
                 return "Notification Sent";
             } else {
                 return "Error creating notification";
