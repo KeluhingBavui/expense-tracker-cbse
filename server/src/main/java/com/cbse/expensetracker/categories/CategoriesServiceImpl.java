@@ -20,7 +20,7 @@ import com.cbse.expensetracker.shared.entity.Expenses;
 import com.cbse.expensetracker.shared.repository.CategoriesRepository;
 
 @Service
-public class CategoriesServiceImpl {
+public class CategoriesServiceImpl implements CategoriesService{
     private final CategoriesRepository categoriesRepository;
 
     @Autowired
