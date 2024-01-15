@@ -1,0 +1,73 @@
+{
+  "Auth": {
+    "loginWithGithub": "使用 GitHub 登录",
+    "loginWithGoogle": "使用 Google 登录"
+  },
+  "Index": {
+    "overallExpense": "总花费",
+    "thisYear": "今年",
+    "thisMonth": "本月",
+    "thisWeek": "本周",
+    "today": "今天",
+    "mostSpentCategory": "最多花费的类别",
+    "mostSpentDay": "最多花费的日子",
+    "leastSpentDay": "最少花费的月份",
+    "myExpenses": "我的花费",
+    "addExpense": "添加花费",
+    "date": "日期",
+    "expense": "花费",
+    "category": "类别",
+    "comment": "评论",
+    "actions": "操作",
+    "previous": "上一页",
+    "next": "下一页",
+    "filter": "筛选"
+  },
+  "Savings": {
+    "mySavings": "我的储蓄",
+    "totalToSave": "总共储蓄",
+    "addSaving": "添加储蓄",
+    "purpose": "目的",
+    "targetDate": "目标日期",
+    "targetAmount": "目标金额",
+    "savingAmount": "储蓄金额",
+    "toSave": "待储蓄"
+  },
+  "Loans": {
+    "myLoans": "我的贷款",
+    "totalToRepay": "总共偿还",
+    "totalToReceive": "总共收到",
+    "addLoan": "添加贷款",
+    "amount": "金额",
+    "type": "类型",
+    "person": "人",
+    "status": "状态",
+    "reason": "原因"
+  },
+  "Profile": {
+    "myProfile": "我的档案",
+    "name": "姓名",
+    "age": "年龄",
+    "gender": "性别"
+  },
+  "Settings": {
+    "settings": "设置",
+    "generalSettings": "通用设置",
+    "language": "语言",
+    "currency": "货币",
+    "theme": "主题",
+    "notificationSettings": "通知设置",
+    "notificationTypes": "通知类型",
+    "notificationTypesDescription": "选择您想接收的通知类型",
+    "notificationsChannel": "通知渠道",
+    "notificationsChannelDescription": "选择您想在哪个渠道接收通知",
+    "enableWeb": "启用 Web",
+    "enableEmail": "启用电子邮件",
+    "expenseSummary": "花费摘要",
+    "loanCompleted": "贷款完成",
+    "loanReminder": "贷款提醒",
+    "savingsCompleted": "储蓄完成",
+    "savingsReminder": "储蓄提醒",
+    "changeLabel": "更改"
+  }
+}

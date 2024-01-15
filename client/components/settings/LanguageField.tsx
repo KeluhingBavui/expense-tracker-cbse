@@ -6,17 +6,26 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { Label } from '../ui/label';
 import { useTheme } from 'next-themes';
+import { useRouter } from 'next/navigation';
 
 const options = [
   { value: 'en', label: 'English' },
-  { value: 'ms-MY', label: 'Malay' },
-  { value: 'zh-MY', label: 'Mandarin' },
-  { value: 'ta-MY', label: 'Tamil' },
+  { value: 'ms', label: 'Malay' },
+  { value: 'zh', label: 'Mandarin' },
+  { value: 'ta', label: 'Tamil' },
+  { value: 'ar', label: 'Arabic' },
 ];
 
-const LanguageField = ({ language }: { language: string }) => {
+const LanguageField = ({
+  language,
+  label,
+}: {
+  language: string;
+  label: string;
+}) => {
   const { session } = useUserSession();
   const { theme: nextTheme } = useTheme();
+  const router = useRouter();
   const [selectedLanguage, setSelectedLanguage] = useState<{
     value: string;
     label: string;
@@ -28,13 +37,13 @@ const LanguageField = ({ language }: { language: string }) => {
   useEffect(() => {
     const updateLanguage = async () => {
       try {
-        await axios.put('/settings/updateLanguage', null, {
+        const response = await axios.put('/settings/updateLanguage', null, {
           params: {
             userId: session?.user.id,
             newLanguage: selectedLanguage?.value || '', // Use fallback if selectedLanguage is null
           },
         });
-        console.log(selectedLanguage?.value);
+        router.push(`/${response.data.language}/settings`);
       } catch (error) {
         console.error('Error updating language:', error);
         // Handle errors here
@@ -52,7 +61,7 @@ const LanguageField = ({ language }: { language: string }) => {
 
   return (
     <div>
-      <Label className="text-md">Language</Label>
+      <Label className="text-md">{label}</Label>
       <Select
         options={options}
         defaultValue={selectedLanguage}

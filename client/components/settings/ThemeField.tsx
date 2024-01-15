@@ -12,7 +12,7 @@ const options = [
   { value: 'dark', label: 'Dark' },
 ];
 
-const ThemeField = ({ theme }: { theme: string }) => {
+const ThemeField = ({ theme, label }: { theme: string; label: string }) => {
   const { session } = useUserSession();
   const { setTheme } = useTheme();
   const [selectedtheme, setSelectedtheme] = useState<{
@@ -53,12 +53,12 @@ const ThemeField = ({ theme }: { theme: string }) => {
 
   return (
     <div>
-      <Label className="text-md">Theme</Label>
+      <Label className="text-md">{label}</Label>
       <Select
         options={options}
         defaultValue={selectedtheme}
         onChange={handleThemeChange}
-        theme={(theme) => ({
+        theme={(theme: { colors: any; }) => ({
           ...theme,
           borderRadius: 0,
           colors: {

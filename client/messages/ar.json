@@ -1,0 +1,69 @@
+{
+  "Index": {
+    "overallExpense": "المصروف الإجمالي",
+    "thisYear": "هذا العام",
+    "thisMonth": "هذا الشهر",
+    "thisWeek": "هذا الأسبوع",
+    "today": "اليوم",
+    "mostSpentCategory": "الفئة التي تم إنفاق أكثر",
+    "mostSpentDay": "اليوم الذي تم فيه الإنفاق بشكل أكبر",
+    "leastSpentDay": "الشهر الذي تم فيه الإنفاق بشكل أقل",
+    "myExpenses": "نفقاتي",
+    "addExpense": "إضافة مصروف",
+    "date": "التاريخ",
+    "expense": "المصروف",
+    "category": "الفئة",
+    "comment": "تعليق",
+    "actions": "الإجراءات",
+    "previous": "السابق",
+    "next": "التالي",
+    "filter": "تصفية"
+  },
+  "Savings": {
+    "mySavings": "مدخراتي",
+    "totalToSave": "المبلغ الكلي للتوفير",
+    "addSaving": "إضافة توفير",
+    "purpose": "الغرض",
+    "targetDate": "تاريخ الهدف",
+    "targetAmount": "مبلغ الهدف",
+    "savingAmount": "مبلغ التوفير",
+    "toSave": "المبلغ المطلوب توفيره"
+  },
+  "Loans": {
+    "myLoans": "قروضي",
+    "totalToRepay": "المبلغ الكلي للسداد",
+    "totalToReceive": "المبلغ الكلي للتحصيل",
+    "addLoan": "إضافة قرض",
+    "amount": "المبلغ",
+    "type": "النوع",
+    "person": "الشخص",
+    "status": "الحالة",
+    "reason": "السبب"
+  },
+  "Profile": {
+    "myProfile": "ملفي الشخصي",
+    "name": "الاسم",
+    "age": "العمر",
+    "gender": "الجنس"
+  },
+  "Settings": {
+    "settings": "الإعدادات",
+    "generalSettings": "الإعدادات العامة",
+    "language": "اللغة",
+    "currency": "العملة",
+    "theme": "السمة",
+    "notificationSettings": "إعدادات الإشعارات",
+    "notificationTypes": "أنواع الإشعارات",
+    "notificationTypesDescription": "حدد أنواع الإشعارات التي ترغب في تلقيها",
+    "notificationsChannel": "قناة الإشعارات",
+    "notificationsChannelDescription": "حدد القناة التي ترغب في تلقي الإشعارات عليها",
+    "enableWeb": "تمكين الويب",
+    "enableEmail": "تمكين البريد الإلكتروني",
+    "expenseSummary": "ملخص المصروفات",
+    "loanCompleted": "اكتمال القرض",
+    "loanReminder": "تذكير بالقرض",
+    "savingsCompleted": "اكتمال التوفير",
+    "savingsReminder": "تذكير بالتوفير",
+    "changeLabel": "تغيير"
+  }
+}

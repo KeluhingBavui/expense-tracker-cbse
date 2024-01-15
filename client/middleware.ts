@@ -1,19 +1,25 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
-import { redirect } from "next/navigation";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { redirect } from 'next/navigation';
+import createIntlMiddleware from 'next-intl/middleware';
 
 export async function middleware(req: NextRequest) {
+  const handleI18nRouting = createIntlMiddleware({
+    defaultLocale: 'en',
+    locales: ['en', 'ms', 'zh', 'ta', 'ar'],
+  });
+  let res = handleI18nRouting(req);
   let response = NextResponse.next({
     request: {
       headers: req.headers,
     },
   });
 
-  const publicUrls = ["/reset", "/reset-password"];
+  const publicUrls = ['/reset', '/reset-password'];
 
   if (publicUrls.includes(req.nextUrl.pathname)) {
-    return response;
+    return res;
   }
 
   const supabase = createServerClient(
@@ -30,7 +36,7 @@ export async function middleware(req: NextRequest) {
             value,
             ...options,
           });
-          response = NextResponse.next({
+          res = NextResponse.next({
             request: {
               headers: req.headers,
             },
@@ -39,10 +45,10 @@ export async function middleware(req: NextRequest) {
         remove(name: string, options: CookieOptions) {
           req.cookies.set({
             name,
-            value: "",
+            value: '',
             ...options,
           });
-          response = NextResponse.next({
+          res = NextResponse.next({
             request: {
               headers: req.headers,
             },
@@ -54,7 +60,7 @@ export async function middleware(req: NextRequest) {
 
   await supabase.auth.getSession();
 
-  return response;
+  return res;
 }
 
 // Ensure the middleware is only called for relevant paths.
@@ -67,6 +73,7 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    "/((?!_next/static|_next/image|favicon.ico).*)",
+    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/',
   ],
 };
