@@ -7,6 +7,7 @@ import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import { Toaster } from '@/components/ui/toaster';
 import { Notification } from '@/types/notification';
+import { NextIntlClientProvider } from 'next-intl';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -77,17 +78,19 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          themes={['light', 'dark', 'system']}
-        >
-          <Toaster />
-          {session && <Navbar notifications={notifications} />}
-          <main className="container mx-auto pt-4">{children}</main>
-        </ThemeProvider>
+        <NextIntlClientProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            themes={['light', 'dark']}
+          >
+            <Toaster />
+            {session && <Navbar notifications={notifications} />}
+            <main className="container mx-auto pt-4">{children}</main>
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

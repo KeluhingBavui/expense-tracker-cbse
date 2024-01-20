@@ -1,6 +1,6 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { createBrowserClient } from "@supabase/ssr";
+'use client';
+import { Button } from '@/components/ui/button';
+import { createBrowserClient } from '@supabase/ssr';
 
 export default function Login() {
   const supabase = createBrowserClient(
@@ -10,7 +10,7 @@ export default function Login() {
 
   async function loginWithGithub() {
     await supabase.auth.signInWithOAuth({
-      provider: "github",
+      provider: 'github',
       options: {
         redirectTo: `${location.origin}/auth/callback`,
       },
@@ -19,7 +19,7 @@ export default function Login() {
 
   async function loginWithGoogle() {
     await supabase.auth.signInWithOAuth({
-      provider: "google",
+      provider: 'google',
       options: {
         redirectTo: `${location.origin}/auth/callback`,
       },
@@ -30,7 +30,9 @@ export default function Login() {
     <div className="flex gap-4 justify-center items-center w-auto">
       <div className="flex flex-col justify-center items-center w-full gap-4">
         <div>
-          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">Expense Tracker</h1>
+          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+            Expense Tracker
+          </h1>
         </div>
         <div className="flex flex-row gap-4">
           <Button onClick={loginWithGithub}>Login with Github</Button>

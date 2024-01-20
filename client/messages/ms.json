@@ -1,0 +1,73 @@
+{
+  "Auth": {
+    "loginWithGithub": "Log masuk dengan GitHub",
+    "loginWithGoogle": "Log masuk dengan Google"
+  },
+  "Index": {
+    "overallExpense": "Perbelanjaan Keseluruhan",
+    "thisYear": "Tahun Ini",
+    "thisMonth": "Bulan Ini",
+    "thisWeek": "Minggu Ini",
+    "today": "Hari Ini",
+    "mostSpentCategory": "Kategori Paling Belanja",
+    "mostSpentDay": "Hari Paling Belanja",
+    "leastSpentDay": "Hari Paling Kurang Belanja",
+    "myExpenses": "Perbelanjaan Saya",
+    "addExpense": "Tambah Perbelanjaan",
+    "date": "Tarikh",
+    "expense": "Perbelanjaan",
+    "category": "Kategori",
+    "comment": "Komen",
+    "actions": "Tindakan",
+    "previous": "Sebelumnya",
+    "next": "Seterusnya",
+    "filter": "Penapis"
+  },
+  "Savings": {
+    "mySavings": "Simpanan Saya",
+    "totalToSave": "Jumlah Simpan",
+    "addSaving": "Tambah Simpanan",
+    "purpose": "Tujuan",
+    "targetDate": "Tarikh Sasaran",
+    "targetAmount": "Jumlah Sasaran",
+    "savingAmount": "Jumlah Simpanan",
+    "toSave": "Simpanan"
+  },
+  "Loans": {
+    "myLoans": "Pinjaman Saya",
+    "totalToRepay": "Jumlah Pembayaran",
+    "totalToReceive": "Jumlah Penerimaan",
+    "addLoan": "Tambah Pinjaman",
+    "amount": "Jumlah",
+    "type": "Jenis",
+    "person": "Individu",
+    "status": "Status",
+    "reason": "Sebab"
+  },
+  "Profile": {
+    "myProfile": "Profil Saya",
+    "name": "Nama",
+    "age": "Umur",
+    "gender": "Jantina"
+  },
+  "Settings": {
+    "settings": "Tetapan",
+    "generalSettings": "Tetapan Am",
+    "language": "Bahasa",
+    "currency": "Mata Wang",
+    "theme": "Tema",
+    "notificationSettings": "Tetapan Pemberitahuan",
+    "notificationTypes": "Jenis Pemberitahuan",
+    "notificationTypesDescription": "Pilih jenis pemberitahuan yang anda ingin terima",
+    "notificationsChannel": "Saluran Pemberitahuan",
+    "notificationsChannelDescription": "Pilih saluran yang ingin anda terima pemberitahuan",
+    "enableWeb": "Aktifkan Web",
+    "enableEmail": "Aktifkan E-mel",
+    "expenseSummary": "Ringkasan Perbelanjaan",
+    "loanCompleted": "Pinjaman Selesai",
+    "loanReminder": "Peringatan Pinjaman",
+    "savingsCompleted": "Simpanan Selesai",
+    "savingsReminder": "Peringatan Simpanan",
+    "changeLabel": "Tukar"
+  }
+}

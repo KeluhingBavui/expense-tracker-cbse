@@ -14,7 +14,18 @@ import { Checkbox } from '../ui/checkbox';
 const NotificationsChannelCard: React.FC<{
   settings: Settings;
   sessionUserId: string;
-}> = ({ settings, sessionUserId }) => {
+  notificationsChannelLabel: string;
+  notificationsChannelDescription: string;
+  notificationsChannelWebLabel: string;
+  notificationsChannelEmailLabel: string;
+}> = ({
+  settings,
+  sessionUserId,
+  notificationsChannelLabel,
+  notificationsChannelDescription,
+  notificationsChannelWebLabel,
+  notificationsChannelEmailLabel,
+}) => {
   const [emailEnbld, setEmailEnbld] = useState(settings.emailEnbld);
   const [webEnbld, setWebEnbld] = useState(settings.webEnbld);
 
@@ -65,10 +76,8 @@ const NotificationsChannelCard: React.FC<{
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Notifications Channel</CardTitle>
-        <CardDescription>
-          Receive notifications on either your email or on the web system
-        </CardDescription>
+        <CardTitle>{notificationsChannelLabel}</CardTitle>
+        <CardDescription>{notificationsChannelDescription}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col space-y-5">
@@ -86,7 +95,7 @@ const NotificationsChannelCard: React.FC<{
                 htmlFor="terms1"
                 className="text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Enable Web
+                {notificationsChannelWebLabel}
               </label>
             </div>
           </div>
@@ -104,7 +113,7 @@ const NotificationsChannelCard: React.FC<{
                 htmlFor="terms1"
                 className="text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Enable Email
+                {notificationsChannelEmailLabel}
               </label>
             </div>
           </div>

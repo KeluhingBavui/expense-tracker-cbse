@@ -1,0 +1,74 @@
+{
+  "Auth": {
+    "loginWithGithub": "GitHub உடைந்து உள்நுழைக",
+    "loginWithGoogle": "Google உடைந்து உள்நுழைக"
+  },
+
+  "Index": {
+    "overallExpense": "மொத்த செலவு",
+    "thisYear": "இந்த வருடம்",
+    "thisMonth": "இந்த மாதம்",
+    "thisWeek": "இந்த வாரம்",
+    "today": "இன்று",
+    "mostSpentCategory": "அதிகமாக செலவிட்ட வகை",
+    "mostSpentDay": "அதிகமாக செலவிட்ட நாள்",
+    "leastSpentDay": "குறைந்த செலவு மாதம்",
+    "myExpenses": "என் செலவுகள்",
+    "addExpense": "செலவைச் சேர்",
+    "date": "தேதி",
+    "expense": "செலவு",
+    "category": "வகை",
+    "comment": "கருத்து",
+    "actions": "செயல்கள்",
+    "previous": "முந்தைய",
+    "next": "அடுத்து",
+    "filter": "வடிகட்டு"
+  },
+  "Savings": {
+    "mySavings": "என் சேமிப்புகள்",
+    "totalToSave": "மொத்தமாக சேமிக்க",
+    "addSaving": "சேமிப்பைச் சேர்",
+    "purpose": "காரணம்",
+    "targetDate": "இலக்கை காட்டும் திகதி",
+    "targetAmount": "இலக்கை காட்டும் தொகை",
+    "savingAmount": "சேமிப்பு தொகை",
+    "toSave": "சேமிக்க"
+  },
+  "Loans": {
+    "myLoans": "என் கடன்கள்",
+    "totalToRepay": "மொத்தமாக செலுத்த",
+    "totalToReceive": "மொத்தமாக பெற",
+    "addLoan": "கடன் சேர்",
+    "amount": "தொகை",
+    "type": "வகை",
+    "person": "நபர்",
+    "status": "நிலை",
+    "reason": "காரணம்"
+  },
+  "Profile": {
+    "myProfile": "என் பக்கம்",
+    "name": "பெயர்",
+    "age": "பயனிலை",
+    "gender": "பாலினம்"
+  },
+  "Settings": {
+    "settings": "அமைப்புகள்",
+    "generalSettings": "பொது அமைப்புகள்",
+    "language": "மொழி",
+    "currency": "நாணயம்",
+    "theme": "தீம்",
+    "notificationSettings": "அறிவித்தல் அமைப்புகள்",
+    "notificationTypes": "அறிவித்தல் வகைகள்",
+    "notificationTypesDescription": "நீங்கள் பெற விரும்பும் அறிவித்தல் வகைகளைத் தேர்ந்தெடுக்கவும்",
+    "notificationsChannel": "அறிவித்தல் சேனல்",
+    "notificationsChannelDescription": "நீங்கள் அறிவித்தல்களை எங்கும் பெற விரும்புகிறீர்களா என்று தேர்ந்தெடுக்கவும்",
+    "enableWeb": "வலை செயலியை இயக்கு",
+    "enableEmail": "மின்னஞ்சலை இயக்கு",
+    "expenseSummary": "செலவு சுருக்கம்",
+    "loanCompleted": "கடன் நிறைவு",
+    "loanReminder": "கடன் அனுப்புகிறது",
+    "savingsCompleted": "சேமிப்பு நிறைவு",
+    "savingsReminder": "சேமிப்பு அனுப்புகிறது",
+    "changeLabel": "மாற்ற"
+  }
+}
